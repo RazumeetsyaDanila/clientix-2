@@ -1,0 +1,24 @@
+@import 'colors';
+
+@font-face {
+    font-family: 'Jost-M';
+    src: url('fonts/Jost/Jost-Medium.ttf')  format('truetype')
+}
+
+@font-face {
+    font-family: 'Jost-L';
+    src: url('fonts/Jost/Jost-Light.ttf')  format('truetype')
+}
+
+@font-face {
+    font-family: 'Jost-B';
+    src: url('fonts/Jost/Jost-Bold.ttf')  format('truetype')
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Jost-M';
+    background-color: $main-color;
+}
