@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useActions } from '../../hooks/useActions';
-import s from './loginPage.module.scss'
+import s from './LoginPage.module.scss'
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -44,7 +44,8 @@ const LoginPage = () => {
 
     return (
         <div className={s.container}>
-            <div className='mb-3 text-3xl'>Авторизация</div>
+            <div> страница авторизации</div>
+            {/* <div className='mb-3 text-3xl'>Авторизация</div>
             <input className='authInput' type="text" placeholder="login" value={login} onChange={e => setLogin(e.target.value)} />
             <input className='authInput' type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
             <button className='authButton' onClick={auth}>Войти</button>
@@ -54,7 +55,7 @@ const LoginPage = () => {
                     <p className='w-[250px] text-center'>{errorText}</p>
                     <button onClick={() => setErrorModal(false)}>OK</button>
                 </div>
-            </Modal>
+            </Modal> */}
         </div>
     );
 };
