@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useActions } from '../../hooks/useActions';
 import s from './LoginPage.module.scss'
+import { loginf } from '../../http/userAPI';
+import { routes } from '../../consts';
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -11,24 +13,23 @@ const LoginPage = () => {
     const [errorText, setErrorText] = useState('')
     const { setUser } = useActions()
 
-    // const auth = async () => {
-    //     try {
-    //         let data
-    //         data = await loginf(login, password)
-    //         setUser(data.login, data.role)
-    //         console.log(data)
-    //         if (data.role === 'admin') navigate(routes.ADMIN_ROUTE)
-    //         if (data.role === 'slave') {
-    //             if (login === 'slave') loginSound()
-    //             navigate(routes.SLAVE_ROUTE)
-    //         }
-    //     } catch (e) {
-    //         setErrorText(e.response.data.message)
-    //         setErrorModal(true)
-    //         errorSound()
-    //         // alert(e.response.data.message)
-    //     }
-    // }
+    const auth = async () => {
+        try {
+            let data
+            data = await loginf(login, password)
+            setUser(data.login, data.role)
+            if (data.role === 'admin') navigate(routes.ADMIN_ROUTE)
+            if (data.role === 'slave') {
+                // if (login === 'slave') loginSound()
+                navigate(routes.SLAVE_ROUTE)
+            }
+        } catch (e) {
+            console.log(e.response.data.message)
+            setErrorText(e.response.data.message)
+            setErrorModal(true)
+            // errorSound()
+        }
+    }
 
     // const loginSound = () => {
     //     let audio = new Audio()
@@ -49,13 +50,13 @@ const LoginPage = () => {
                     <h2>Авторизация</h2>
                     <div className={s.inputbox}>
                         <input value={login} onChange={e => setLogin(e.target.value)} required />
-                        <label for="">Логин</label>
+                        <label>Логин</label>
                     </div>
                     <div className={s.inputbox}>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                        <label for="">Пароль</label>
+                        <label>Пароль</label>
                     </div>
-                    <button>Войти</button>
+                    <button onClick={auth}>Войти</button>
                 </div>
             </div>
             <h3 className={s.appTitle}>CLIENTIX 2.0</h3>
