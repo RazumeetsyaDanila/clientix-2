@@ -44,7 +44,21 @@ const LoginPage = () => {
 
     return (
         <div className={s.container}>
-            <div> страница авторизации</div>
+            <div className={s.formBox}>
+                <div className={s.formBox2}>
+                    <h2>Авторизация</h2>
+                    <div className={s.inputbox}>
+                        <input value={login} onChange={e => setLogin(e.target.value)} required />
+                        <label for="">Логин</label>
+                    </div>
+                    <div className={s.inputbox}>
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                        <label for="">Пароль</label>
+                    </div>
+                    <button>Войти</button>
+                </div>
+            </div>
+            <h3 className={s.appTitle}>CLIENTIX 2.0</h3>
             {/* <div className='mb-3 text-3xl'>Авторизация</div>
             <input className='authInput' type="text" placeholder="login" value={login} onChange={e => setLogin(e.target.value)} />
             <input className='authInput' type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
