@@ -1,0 +1,7 @@
+.textDecoration{
+    &:hover{
+        
+        text-decoration: underline dashed;
+        cursor: pointer;
+    }
+}

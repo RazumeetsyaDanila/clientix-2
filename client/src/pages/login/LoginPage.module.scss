@@ -96,6 +96,8 @@
   }
   
   button:hover{
-    background: #0E73D0;
+    // background: #0E73D0;
+    background: rgb(9,13,78);
+    background: linear-gradient(160deg, rgba(9,13,78,1) 0%, rgba(14,109,201,1) 80%);
     color: #fff;
   }

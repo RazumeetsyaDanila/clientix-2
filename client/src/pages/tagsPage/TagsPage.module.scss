@@ -1,0 +1,233 @@
+@import '../../theme';
+
+
+.container{
+    display: flex;
+    height: 100vh;
+    justify-content: flex-end;
+}
+
+.workPlaceContainer{
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 300px);
+}
+
+.leftNavBarContainer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: $nav-width;
+    height: 100vh;
+    // background-color: $win-theme-dark-blue;
+    background: rgb(2,0,36);
+    background: linear-gradient(85deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 90%);
+    border-radius: 0 20px 20px 0;
+    border-right: 3px solid $win-theme-soft-blue;
+}
+
+.headerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 10px 0 0;
+}
+
+.headerPanel{
+    position: relative;
+    background: rgb(2,0,36);
+    background: linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+    width: 1000px;
+    height: 50px;
+    border-radius: 20px;
+    border: 1px solid $win-theme-soft-blue;
+    margin-left: 20px;
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+}
+
+.groupSelect{
+    width: 230px;
+    height: 30px;
+    padding-left: 10px;
+    background-color: $win-theme-dark-blue;
+    color: white;
+    border-radius: 12px;
+    border: 1px solid $win-theme-soft-blue;
+    margin-left: 20px;
+
+    &:focus{
+        outline: 2px solid $win-theme-soft-blue;
+    }
+}
+
+.tagSearchInput{
+    width: 320px;
+    height: 30px;
+    border-radius: 12px;
+    border: 1px solid $win-theme-soft-blue;
+    padding-left: 10px;
+    background-color: white;
+    margin-left: 10px;
+
+    &:focus{
+        outline: 2px solid $win-theme-soft-blue;
+    }
+}
+
+.clearSearchBtn{
+    position: absolute;
+    left: 290px;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    cursor: pointer;
+    opacity: 0.5;
+
+    &:hover{
+        opacity: 1;
+    }
+}
+
+
+.helloTitle{
+    color: $win-theme-dark-blue;
+    user-select: none;
+}
+
+.pageTitle{
+    color: $win-theme-dark-blue;
+    user-select: none;
+    font-size: 22px;
+}
+
+.appTitle{
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 34px;
+    user-select: none;
+}
+
+.exitBtn{
+    color: white;
+    opacity: 0.5;
+    text-decoration: none;
+    font-size: 18px;
+    position: fixed;
+    bottom: 16px;
+    left: 34px;
+    user-select: none;
+    cursor: pointer;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+
+// =========================================== меню ========================================
+.pageListContainer{
+    width: $nav-width;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.navLinkToTags{
+    width: 220px;
+    height: 40px;
+    border: 3px solid $win-theme-soft-blue;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #080932;
+    opacity: 1;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+.navLinkToTech{
+    width: 220px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #080932;
+    opacity: 0.6;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+// =================================== таблица с тегами =========================================
+.tableContainer{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.table{
+    width: 100%;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 2px solid $win-theme-dark-blue;
+	border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.thName, .thValue, .thValue1, .thValue2{
+    font-weight: bold;
+	padding: 8px;
+	background: #161C4F;
+	border: 1px solid $win-theme-dark-blue;
+    color: white;
+}
+
+.td, .tdValue1, .tdValue2{
+    border: 2px solid $win-theme-dark-blue;
+	padding: 8px 8px 8px 14px;
+    background-color: $win-theme-gray-background;
+    color: black;
+}
+
+
+.tdValue1, .tdValue2{
+    
+    width: 30%;
+    user-select: none;
+    
+}
+
+
+
+.loadingSpin {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid $win-theme-soft-blue;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 40vh auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

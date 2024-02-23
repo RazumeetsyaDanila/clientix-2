@@ -10,7 +10,7 @@
 .workPlaceContainer{
     display: flex;
     flex-direction: column;
-    width: calc(100vw - 280px);
+    width: calc(100vw - 300px);
 }
 
 .leftNavBarContainer{
@@ -21,7 +21,7 @@
     height: 100vh;
     // background-color: $win-theme-dark-blue;
     background: rgb(2,0,36);
-    background: linear-gradient(280deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 90%);
+    background: linear-gradient(85deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 90%);
     border-radius: 0 20px 20px 0;
     border-right: 3px solid $win-theme-soft-blue;
 }
@@ -40,7 +40,7 @@
     background: rgb(2,0,36);
     background: linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
     width: 1000px;
-    height: 70px;
+    height: 50px;
     border-radius: 20px;
     border: 1px solid $win-theme-soft-blue;
     margin-left: 20px;
@@ -52,11 +52,18 @@
     user-select: none;
 }
 
+.pageTitle{
+    color: $win-theme-dark-blue;
+    user-select: none;
+    font-size: 22px;
+}
+
 .appTitle{
     color: white;
     font-size: 18px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 34px;
+    user-select: none;
 }
 
 .exitBtn{
@@ -67,7 +74,55 @@
     position: fixed;
     bottom: 16px;
     left: 34px;
+    user-select: none;
     cursor: pointer;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+
+.pageListContainer{
+    width: $nav-width;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.navLinkToTags{
+    width: 220px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #080932;
+    opacity: 0.6;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+.navLinkToTech{
+    width: 220px;
+    height: 40px;
+    border: 3px solid $win-theme-soft-blue;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #080932;
+    opacity: 1;
     &:hover{
         opacity: 1;
     }

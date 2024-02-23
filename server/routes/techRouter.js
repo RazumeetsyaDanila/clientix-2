@@ -1,10 +1,11 @@
 const Router = require('express')
 const router = new Router()
-// const techController = require('../controllers/techController')
+const techController = require('../controllers/techController')
 const authMiddleware = require('../middleware/authMiddleware')
 const checkRoleMiddleware = require('../middleware/checkRoleMiddleware')
 
-
+router.get('/get_tags', authMiddleware, techController.get_tags)
+router.get('/get_tags_groups', authMiddleware, techController.get_tags_groups)
 // router.post('/delete_org', checkRoleMiddleware('tech'), techController.delete_org)
 // router.get('/get_users', checkRoleMiddleware('tech'), techController.get_users)
 // router.post('/delete_tag', checkRoleMiddleware('tech'), techController.delete_tag)
