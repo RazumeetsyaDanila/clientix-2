@@ -1,4 +1,4 @@
-@import '../../colors';
+@import '../../theme';
 .container {
     display: flex;
     justify-content: center;
@@ -37,7 +37,7 @@
     background: transparent;
 }
   
-  h2 {
+  .authTitle {
     font-size: 2em;
     color: #fff;
     text-align: center;
@@ -96,6 +96,6 @@
   }
   
   button:hover{
-    background: #171A45;
+    background: #0E73D0;
     color: #fff;
   }

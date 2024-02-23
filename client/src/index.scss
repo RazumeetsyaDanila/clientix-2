@@ -1,4 +1,4 @@
-@import 'colors';
+@import 'theme';
 
 @font-face {
     font-family: 'Jost-M';
@@ -20,5 +20,8 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Jost-M';
-    background-color: $main-color;
+}
+
+body{
+    background-color: $win-theme-main-background;
 }

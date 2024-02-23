@@ -1,0 +1,74 @@
+@import '../../theme';
+
+
+.container{
+    display: flex;
+    height: 100vh;
+    justify-content: flex-end;
+}
+
+.workPlaceContainer{
+    display: flex;
+    flex-direction: column;
+    width: calc(100vw - 280px);
+}
+
+.leftNavBarContainer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: $nav-width;
+    height: 100vh;
+    // background-color: $win-theme-dark-blue;
+    background: rgb(2,0,36);
+    background: linear-gradient(280deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 90%);
+    border-radius: 0 20px 20px 0;
+    border-right: 3px solid $win-theme-soft-blue;
+}
+
+.headerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 10px 10px 0 0;
+}
+
+.headerPanel{
+    // background-color: $win-theme-dark-blue;
+    // background: rgb(22,28,80);
+    // background: radial-gradient(circle, rgba(22,28,80,1) 80%, rgba(2,0,36,1) 100%);
+    background: rgb(2,0,36);
+    background: linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+    width: 1000px;
+    height: 70px;
+    border-radius: 20px;
+    border: 1px solid $win-theme-soft-blue;
+    margin-left: 20px;
+}
+
+
+.helloTitle{
+    color: $win-theme-dark-blue;
+    user-select: none;
+}
+
+.appTitle{
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.exitBtn{
+    color: white;
+    opacity: 0.5;
+    text-decoration: none;
+    font-size: 18px;
+    position: fixed;
+    bottom: 16px;
+    left: 34px;
+    cursor: pointer;
+    &:hover{
+        opacity: 1;
+    }
+}

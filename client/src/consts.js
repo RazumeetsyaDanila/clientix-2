@@ -19,6 +19,7 @@ if(placeOfWork == 'prod'){
 // enum только для ts
 export const routes = {
     ADMIN_ROUTE: '/admin',
+    TECH_ROUTE: '/tech',
     SLAVE_ROUTE: '/slave',
     LOGIN_ROUTE: '/login',
     REAUTH_ROUTE: '/reauth',
@@ -31,4 +32,4 @@ export const routes = {
     FILES_ROUTE: '/file'
 }
 
-export const correct_routes = ['admin', 'slave', 'login', 'users', 'registration', 'org_add', 'tags', 'tag_add', 'file', 'org', 'reauth']
+export const correct_routes = ['admin', 'tech', 'slave', 'login', 'users', 'registration', 'org_add', 'tags', 'tag_add', 'file', 'org', 'reauth']

@@ -19,6 +19,7 @@ const LoginPage = () => {
             data = await loginf(login, password)
             setUser(data.login, data.role)
             if (data.role === 'admin') navigate(routes.ADMIN_ROUTE)
+            if (data.role === 'tech') navigate(routes.TECH_ROUTE)
             if (data.role === 'slave') {
                 // if (login === 'slave') loginSound()
                 navigate(routes.SLAVE_ROUTE)
@@ -47,7 +48,7 @@ const LoginPage = () => {
         <div className={s.container}>
             <div className={s.formBox}>
                 <div className={s.formBox2}>
-                    <h2>Авторизация</h2>
+                    <h2 className={s.authTitle}>Авторизация</h2>
                     <div className={s.inputbox}>
                         <input value={login} onChange={e => setLogin(e.target.value)} required />
                         <label>Логин</label>
