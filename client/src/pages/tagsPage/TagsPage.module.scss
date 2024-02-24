@@ -37,7 +37,7 @@
     position: relative;
     background: rgb(2,0,36);
     background: linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
-    width: 1000px;
+    width: 768px;
     height: 50px;
     border-radius: 20px;
     border: 1px solid $win-theme-soft-blue;
@@ -134,7 +134,7 @@
     color: white;
     font-size: 18px;
     text-align: center;
-    margin-top: 34px;
+    margin-top: 24px;
     user-select: none;
 }
 
@@ -162,7 +162,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .navLinkToTags{
@@ -223,12 +223,12 @@
     font-weight: bold;
 	padding: 8px;
 	background: #161C4F;
-	border: 1px solid $win-theme-dark-blue;
+	// border: 1px solid $win-theme-dark-blue;
     color: white;
 }
 
 .td, .tdValue1, .tdValue2{
-    border: 2px solid $win-theme-dark-blue;
+    border: 2px solid $win-theme-main-background;
 	padding: 8px 8px 8px 14px;
     background-color: $win-theme-gray-background;
     color: black;

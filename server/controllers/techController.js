@@ -41,6 +41,31 @@ class TechController {
             return res.json(e.message);
         }
     }
+
+    async add_tag(req, res, next) {
+        try {
+            const { tag_name, group_id, tag_value1, tag_value2, tag_value3 } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let search_tag = await pool.request()
+                .input('tag_name', sql.VarChar, tag_name)
+                .query('SELECT * FROM TAG WHERE TAG_NAME = @tag_name')
+            if (search_tag.recordset.length > 0) return res.json({ message: "Тег с таким названием уже существует!" })
+
+            await pool.request()
+                .input('TAG_NAME', sql.VarChar, tag_name)
+                .input('GROUP_ID', sql.VarChar, group_id)
+                .input('TAG_VALUE1', sql.VarChar, tag_value1)
+                .input('TAG_VALUE2', sql.VarChar, tag_value2)
+                .input('TAG_VALUE3', sql.VarChar, tag_value3)
+                
+                .query('INSERT INTO TAG (TAG_NAME, GROUP_ID, TAG_VALUE1, TAG_VALUE2, TAG_VALUE3)' +
+                    'VALUES (@tag_name, @group_id, @tag_value1, @tag_value2, @tag_value3)')
+            return res.json({ message: "Тег добавлен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new TechController()

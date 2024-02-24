@@ -11,6 +11,8 @@ const TechPage = () => {
     const currentUserLogin = useTypedSelector(state => state.user.login)
     const { unsetUser, fetchClients, fetchTags } = useActions()
 
+    const currentTime = new Date().getHours();
+
     const logOut = () => {
         unsetUser()
     }
@@ -30,7 +32,23 @@ const TechPage = () => {
             <div className={s.workPlaceContainer}>
                 <div className={s.headerContainer}>
                     {/* <h3 className={s.helloTitle}>Добро пожаловать, {currentUserLogin}!</h3> */}
-                    <h3 className={s.pageTitle}>Клиенты</h3>
+                    {
+                        (() => {
+                            switch (true) {
+                                case currentTime <= 4:
+                                    return <h3 className={s.pageTitle}>Доброй ночи, {currentUserLogin}!</h3>
+                                case currentTime <= 12:
+                                    return <h3 className={s.pageTitle}>Доброе утро, {currentUserLogin}!</h3>
+                                case currentTime <= 17:
+                                    return <h3 className={s.pageTitle}>Добрый день, {currentUserLogin}!</h3>
+                                case currentTime <= 23:
+                                    return <h3 className={s.pageTitle}>Добрый вечер, {currentUserLogin}!</h3>
+                                default:
+                                    return <div></div>
+                            }
+                        })()
+                    }
+                    {/* <h3 className={s.pageTitle}>Клиенты</h3> */}
                     <div className={s.headerPanel}>
 
                     </div>

@@ -47,6 +47,13 @@ const TagsPage = () => {
     }
 
 
+    const currentTime = new Date().getHours();
+    // const currentTime = 23;
+    // if(currentTime <= 4) console.log('Доброй ночи!')
+    // else if(currentTime <= 12) console.log('Доброе утро!')
+    // else if(currentTime <= 17) console.log('Добрый день!')
+    // else if(currentTime <= 23) console.log('Добрый вечер!')
+
     // if (!loading) return <h1 className={s.loadingSpin}>Идет загрузка...</h1>
 
     return (
@@ -99,8 +106,8 @@ const TagsPage = () => {
                                         .filter(t => t.TAG_NAME.toLowerCase().includes(textFilter.toLowerCase()))
                                         .map(t => <tr key={t.TAG_NAME}>
                                             <td className={s.td} data-th="Наименование">{t.TAG_NAME}</td>
-                                            <td className={s.tdValue1} data-th="Значение 1"><CopiedText text={t.TAG_VALUE1}/></td>
-                                            <td className={s.tdValue2} data-th="Значение 2"><CopiedText text={t.TAG_VALUE2}/></td>
+                                            <td className={s.tdValue1} data-th="Значение 1"><CopiedText text={t.TAG_VALUE1} /></td>
+                                            <td className={s.tdValue2} data-th="Значение 2"><CopiedText text={t.TAG_VALUE2} /></td>
                                             {/* <td data-th="Значение 3">{t.tag_value3}</td> */}
                                         </tr>
                                         )}
