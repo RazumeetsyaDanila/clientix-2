@@ -16,7 +16,7 @@ if(placeOfWork == 'prod'){
     REACT_APP_URL = 'http://clientix.local:322/'
 }
 
-// enum только для ts
+
 export const routes = {
     ADMIN_ROUTE: '/admin',
     TECH_ROUTE: '/tech',
@@ -27,7 +27,7 @@ export const routes = {
     USERS_ROUTE: '/users',
     ORG_ADD_ROUTE: '/org_add',
     TAGS_ROUTE: '/tags',
-    TAGS_ADD_ROUTE: '/tag_add',
+    TAG_ADD_ROUTE: '/tag_add',
     ORG_ROUTE: '/org/:id',
     FILES_ROUTE: '/file'
 }

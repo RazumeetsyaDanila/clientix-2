@@ -75,6 +75,8 @@ const TagsPage = () => {
                             {tagsGroups.map(t => <option key={t.GROUP_ID} value={t.GROUP_ID}>{t.GROUP_NAME}</option>)}
                         </select>
 
+                        <NavLink to='/tag_add' className={s.tagAddBtn}>Добавить тег</NavLink>
+
                     </div>
                 </div>
 
