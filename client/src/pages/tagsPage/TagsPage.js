@@ -6,6 +6,9 @@ import { routes } from '../../consts';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import clearImg from '../../img/clear-img.png';
 import CopiedText from '../../components/UI/copiedText/CopiedText';
+import Modal from '../../components/UI/modal/Modal';
+import { delete_tag, update_tag } from '../../http/tagsAPI';
+import editBtn from "../../img/editing_min.png"
 
 
 const TagsPage = () => {
@@ -16,7 +19,19 @@ const TagsPage = () => {
     const [currentTagsGroup, setCurrentTagsGroup] = useState(0)
     const [textFilter, setTextFilter] = useState('')
 
+    const [editTagModal, setEditTagModal] = useState(false)
+    const [editTagSuccessModal, setEditTagSuccessModal] = useState(false)
+
+    const [deleteConfirmModal, setDeleteConfirmModal] = useState(false)
+    const [editTagId, setEditTagId] = useState(0)
+    const [editTagName, setEditTagName] = useState('')
+    const [editTagValue1, setEditTagValue1] = useState('')
+    const [editTagValue2, setEditTagValue2] = useState('')
+    const [editTagValue3, setEditTagValue3] = useState('')
+
     const nameField = React.useRef(document.createElement("input"))
+
+    const currentTime = new Date().getHours();
 
     const logOut = () => {
         unsetUser()
@@ -46,15 +61,37 @@ const TagsPage = () => {
         setTextFilter('')
     }
 
+    const startEditTag = (id, name, value1, value2) => {
+        setEditTagModal(true)
+        setEditTagId(id)
+        setEditTagName(name)
+        setEditTagValue1(value1)
+        setEditTagValue2(value2)
+    }
 
-    const currentTime = new Date().getHours();
-    // const currentTime = 23;
-    // if(currentTime <= 4) console.log('Доброй ночи!')
-    // else if(currentTime <= 12) console.log('Доброе утро!')
-    // else if(currentTime <= 17) console.log('Добрый день!')
-    // else if(currentTime <= 23) console.log('Добрый вечер!')
+    const applyEdit = () => {
+        update_tag( editTagId, editTagName, editTagValue1, editTagValue2, editTagValue3)
+        setTimeout(() => refresh(), 100) // при изменении тега, не успевает обновиться информация о внесенных изменениях, поэтому откладываем обновление данных на 0,1 секунду (приношу извинения за костыль, другого решения пока не нашел)
+        setEditTagModal(false)
+        setEditTagSuccessModal(true)
+    }
 
-    // if (!loading) return <h1 className={s.loadingSpin}>Идет загрузка...</h1>
+    const refresh = () => {
+        fetchTags()
+        setCurrentTags(tags)
+    }
+
+    const startDeleteTag = (name) => {        
+        setEditTagModal(false)
+        setDeleteConfirmModal(true)        
+    }
+
+    const deleteTag = () => {
+        delete_tag(editTagId)
+        setTimeout(() => refresh(), 100) // при изменении тега, не успевает обновиться информация о внесенных изменениях, поэтому откладываем обновление данных на 0,1 секунду (приношу извинения за костыль, другого решения пока не нашел)
+        setDeleteConfirmModal(false)
+    }
+
 
     return (
         <div className={s.container}>
@@ -105,7 +142,7 @@ const TagsPage = () => {
                                     {currentTags
                                         .filter(t => t.TAG_NAME.toLowerCase().includes(textFilter.toLowerCase()))
                                         .map(t => <tr key={t.TAG_NAME}>
-                                            <td className={s.td} data-th="Наименование">{t.TAG_NAME}</td>
+                                            <td className={s.td} data-th="Наименование">{t.TAG_NAME} <img src={editBtn} className={s.editImg} onClick={() => startEditTag(t.TAG_ID, t.TAG_NAME, t.TAG_VALUE1, t.TAG_VALUE2)} /></td>
                                             <td className={s.tdValue1} data-th="Значение 1"><CopiedText text={t.TAG_VALUE1} /></td>
                                             <td className={s.tdValue2} data-th="Значение 2"><CopiedText text={t.TAG_VALUE2} /></td>
                                             {/* <td data-th="Значение 3">{t.tag_value3}</td> */}
@@ -116,6 +153,27 @@ const TagsPage = () => {
                         </div>
                 }
                 {/* ================================================================================================= */}
+
+                <Modal visible={editTagModal} setVisible={setEditTagModal}>
+                    <div className={s.editTagContainer}>
+                        <p className={s.editTagTitle}>Редактирование</p>
+                        <input className={s.editTagInput} type="text" placeholder="Наименование тега" value={editTagName} onChange={e => setEditTagName(e.target.value)} />
+                        <input className={s.editTagInput} type="text" placeholder="Значение 1" value={editTagValue1} onChange={e => setEditTagValue1(e.target.value)} />
+                        <input className={s.editTagInput} type="text" placeholder="Значение 2" value={editTagValue2} onChange={e => setEditTagValue2(e.target.value)} />
+                        <button className={s.editTagApplyBtn} onClick={applyEdit}>Применить изменения</button>
+                        <button className={s.editTagDeleteBtn} onClick={() => startDeleteTag(editTagName)}>Удалить</button>
+                    </div>
+                </Modal>
+
+                <Modal visible={deleteConfirmModal} setVisible={setDeleteConfirmModal}>
+                <div className={s.editTagContainer}>
+                    <p className={s.editTagTitle}>Удалить?</p>
+                    <div className={s.deletetagYesNo}>
+                        <button className={s.deletetagYes} onClick={deleteTag}>Да</button>
+                        <button className={s.deletetagNo} onClick={() => setDeleteConfirmModal(false)}>Нет</button>
+                    </div>
+                </div>
+            </Modal>
             </div>
         </div>
     );

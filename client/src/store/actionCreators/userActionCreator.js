@@ -12,6 +12,7 @@ export const setUser = (login, role) => {
 
 export const unsetUser = () => {
     return (dispatch) => {
+        // localStorage.removeItem('token');
         dispatch({ type: 'UNSET_USER'})
     }
 }

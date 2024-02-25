@@ -66,6 +66,36 @@ class TechController {
             return res.json(e.message);
         }
     }
+
+    async update_tag(req, res, next) {
+        try {
+            const { tag_id, new_tag_name, tag_value1, tag_value2, tag_value3 } = req.body
+            let pool = await sql.connect(sqlConfig)
+            await pool.request()
+                .input('tag_id', sql.Int, tag_id)
+                .input('new_tag_name', sql.VarChar, new_tag_name)
+                .input('tag_value1', sql.VarChar, tag_value1)
+                .input('tag_value2', sql.VarChar, tag_value2)
+                .input('tag_value3', sql.VarChar, tag_value3)
+                .query('UPDATE TAG SET TAG_NAME = @new_tag_name, TAG_VALUE1 = @tag_value1, TAG_VALUE2 = @tag_value2, TAG_VALUE3 = @tag_value3 WHERE TAG_ID = @tag_id')
+            return res.json({ message: "Тег изменен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_tag(req, res, next) {
+        try {
+            const { tag_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+            await pool.request()
+                .input('tag_id', sql.Int, tag_id)
+                .query('DELETE FROM TAG WHERE TAG_ID = @tag_id')
+            return res.json({ message: "Тег удален!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new TechController()
