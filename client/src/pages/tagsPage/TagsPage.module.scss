@@ -223,24 +223,33 @@
     font-weight: bold;
 	padding: 8px;
 	background: #161C4F;
-	// border: 1px solid $win-theme-dark-blue;
     color: white;
+}
+
+.td{
+    padding: 8px 8px 8px 14px;
+    font-weight: 600;
 }
 
 .td, .tdValue1, .tdValue2{
     border: 2px solid $win-theme-main-background;
-	padding: 8px 8px 8px 14px;
+    // паддинг перенесен в компонент copied text
+	// padding: 8px 8px 8px 14px;
     background-color: $win-theme-gray-background;
-    color: black;
+    color: $win-theme-dark-blue;
 }
 
 
 .tdValue1, .tdValue2{
-    
     width: 30%;
     user-select: none;
-    
+    &:hover{
+        background: rgb(2,0,36);
+        background: linear-gradient(292deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+        color: white;
+    }
 }
+
 
 
 

@@ -17,7 +17,7 @@ const CopiedText = ({text}) => {
         <div>
             {
                 copied ?
-                <p>Скопировано!</p>
+                <p className={s.textDecoration}>Скопировано!</p>
                 :
                 <p className={s.textDecoration} onClick={() => copy(text)}>{text}</p>
             }

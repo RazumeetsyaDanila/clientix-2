@@ -25,3 +25,17 @@
 body{
     background-color: $win-theme-main-background;
 }
+
+/* цвет фона трека скроллбара */
+// ::-webkit-scrollbar-track {
+//     background: $win-theme-soft-blue; 
+// }
+
+::-webkit-scrollbar-thumb {
+    background: $win-theme-dark-blue; /* цвет ползунка скроллбара */
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* ширина скроллбара */
+}

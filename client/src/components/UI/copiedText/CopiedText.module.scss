@@ -1,7 +1,8 @@
 .textDecoration{
+    padding: 8px 8px 8px 14px;
     &:hover{
         
-        text-decoration: underline dashed;
+        // text-decoration: underline dashed;
         cursor: pointer;
     }
 }

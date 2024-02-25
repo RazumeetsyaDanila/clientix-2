@@ -6,6 +6,7 @@ import { routes } from '../../consts';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import backBtnImg from '../../img/previous.png';
 import { tag_add } from '../../http/tagsAPI';
+import Modal from '../../components/UI/modal/Modal';
 
 
 const TagAddPage = () => {
@@ -42,13 +43,14 @@ const TagAddPage = () => {
             }
             await tag_add(tagName, groupId, tagValue1, tagValue2, tagValue3)
             setSuccessModal(true)
+            setTimeout(() => setSuccessModal(false), 1000)
             setTagValue1('')
             setTagValue2('')
             setTagName('')
             fetchTags()
             // currentUserRole == 'admin' ? navigate(routes.ADMIN_ROUTE) : navigate(routes.SLAVE_ROUTE)
         } catch (e) {
-            console.log(e.response.data.message)
+            console.log(e.response.message)
         }
     }
 
@@ -84,6 +86,28 @@ const TagAddPage = () => {
                     <button className={s.addTagBtn} onClick={tagAdd} >Добавить</button>
                 </div>
             </div>
+
+            {/* ===================================== модальные окна ==================================================== */}
+            <Modal visible={errorModal1} setVisible={setErrorModal1}>
+                <div className={s.successModalContainer}>
+                    <p className={s.successModalTitle}>Выберите группу тегов</p>
+                    <button className={s.modalAccessBtn} onClick={() => setErrorModal1(false)}>ОК</button>
+                </div>
+            </Modal>
+
+            <Modal visible={errorModal2} setVisible={setErrorModal2}>
+                <div className={s.successModalContainer}>
+                    <p className={s.successModalTitle}>Заполните данные о теге</p>
+                    <button className={s.modalAccessBtn} onClick={() => setErrorModal2(false)}>ОК</button>
+                </div>
+            </Modal>
+
+            <Modal visible={successModal} setVisible={setSuccessModal}>
+                <div className={s.successModalContainer}>
+                    <p className={s.successModalTitle}>Тег добавлен!</p>
+                    {/* <button onClick={() => setSuccessModal(false)}>ОК</button> */}
+                </div>
+            </Modal>
         </div>
     );
 };
