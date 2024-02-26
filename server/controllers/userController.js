@@ -38,6 +38,20 @@ class UserController {
         const token = generateJwt(req.user.login, req.user.role)
         return res.json({ token })
     }
+
+    async get_orgs(req, res, next) {
+        try {
+            let pool = await sql.connect(sqlConfig)
+            let organizations = await pool.request()
+                .query('SELECT ORG_ID, ORG_NAME,ORG_SIMED_PASS ,ORG_REMOTE_ACCESS_TYPE, ORG_COMMENT, ORG_CITY FROM ORGANIZATION')
+
+            if (organizations.recordset.length == 0) return next(ApiError.internal('Ни одной организации не найдено'))
+
+            return res.json(organizations.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new UserController()

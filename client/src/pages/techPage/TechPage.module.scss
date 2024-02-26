@@ -124,3 +124,67 @@
         opacity: 1;
     }
 }
+
+
+// ==================================  стили таблицы
+.tableContainer{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.table{
+    width: 100%;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 2px solid $win-theme-dark-blue;
+	border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.thName, .thAdminPass, .thAccessType, .thCity{
+    font-weight: bold;
+	padding: 8px;
+	background: #161C4F;
+    color: white;
+}
+
+.thAccessType{
+    width: 20%;
+}
+
+.tdName{
+    font-weight: 600;
+    width: 40%;
+    &:hover{
+        background: rgb(2,0,36);
+        background: linear-gradient(292deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+    }
+    &:hover .tdNameNavLink{
+        color: white;
+    }
+}
+
+.tdNameNavLink{
+    text-decoration: none;
+    color: $win-theme-dark-blue;
+}
+
+.tdNameNavLinkDiv{
+    padding: 8px 8px 8px 14px;
+}
+
+.tdCity, .tdAccessType{
+    padding: 8px 8px 8px 14px;
+}
+
+.tdName, .tdAdminPass, .tdAccessType, .tdCity{
+    // паддинг перенесен в компонент copied text
+	// padding: 8px 8px 8px 14px;
+    background-color: $win-theme-gray-background;
+    color: $win-theme-dark-blue;
+    border: 2px solid $win-theme-main-background;
+}

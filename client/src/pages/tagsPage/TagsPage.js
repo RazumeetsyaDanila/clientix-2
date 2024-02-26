@@ -142,7 +142,7 @@ const TagsPage = () => {
                                     {currentTags
                                         .filter(t => t.TAG_NAME.toLowerCase().includes(textFilter.toLowerCase()))
                                         .map(t => <tr key={t.TAG_NAME}>
-                                            <td className={s.td} data-th="Наименование">{t.TAG_NAME} <img src={editBtn} className={s.editImg} onClick={() => startEditTag(t.TAG_ID, t.TAG_NAME, t.TAG_VALUE1, t.TAG_VALUE2)} /></td>
+                                            <td className={s.td} data-th="Наименование"><div className={s.tdNameFlex}>{t.TAG_NAME} <img src={editBtn} className={s.editImg} onClick={() => startEditTag(t.TAG_ID, t.TAG_NAME, t.TAG_VALUE1, t.TAG_VALUE2)} /></div></td>
                                             <td className={s.tdValue1} data-th="Значение 1"><CopiedText text={t.TAG_VALUE1} /></td>
                                             <td className={s.tdValue2} data-th="Значение 2"><CopiedText text={t.TAG_VALUE2} /></td>
                                             {/* <td data-th="Значение 3">{t.tag_value3}</td> */}

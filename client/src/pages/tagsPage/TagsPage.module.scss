@@ -217,9 +217,10 @@
 	border-collapse: collapse;
     border-radius: 20px;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 
-.thName, .thValue, .thValue1, .thValue2{
+.thName, .thValue1, .thValue2{
     font-weight: bold;
 	padding: 8px;
 	background: #161C4F;
@@ -229,13 +230,15 @@
 .td{
     padding: 8px 8px 8px 14px;
     font-weight: 600;
+    border: 2px solid $win-theme-main-background;
+}
+
+.tdNameFlex{
     display: flex;
     justify-content: space-between;
-    border: 1px solid $win-theme-main-background;
 }
 
 .td, .tdValue1, .tdValue2{
-    
     // паддинг перенесен в компонент copied text
 	// padding: 8px 8px 8px 14px;
     background-color: $win-theme-gray-background;
