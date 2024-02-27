@@ -43,11 +43,25 @@ class UserController {
         try {
             let pool = await sql.connect(sqlConfig)
             let organizations = await pool.request()
-                .query('SELECT ORG_ID, ORG_NAME,ORG_SIMED_PASS ,ORG_REMOTE_ACCESS_TYPE, ORG_COMMENT, ORG_CITY FROM ORGANIZATION')
+                .query('SELECT ORG_ID, ORG_NAME,ORG_SIMED_ADMIN_PASS, ORG_REMOTE_ACCESS_TYPE, ORG_COMMENT, ORG_CITY FROM ORGANIZATION')
 
             if (organizations.recordset.length == 0) return next(ApiError.internal('Ни одной организации не найдено'))
 
             return res.json(organizations.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async get_rdp(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let rdp = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM RDP_SERVER WHERE ORG_ID = @org_id')
+            return res.json(rdp.recordset)
         } catch (e) {
             return res.json(e.message);
         }

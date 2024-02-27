@@ -33,7 +33,7 @@
     cursor: default;
     // border: 4px solid $win-theme-soft-blue;
     border: 4px solid transparent; /* устанавливаем прозрачную границу */
-    border-image: linear-gradient(to right, $win-theme-dark-blue, $win-theme-soft-blue); /* градиентная граница */
+    border-image: linear-gradient(75deg, $win-theme-dark-blue, $win-theme-soft-blue); /* градиентная граница */
     border-image-slice: 1;
     border-radius: 12px;
     

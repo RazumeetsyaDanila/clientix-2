@@ -226,6 +226,15 @@
     }
 }
 
+.tdAdminPass, .tdAccessType{
+    cursor: pointer;
+    &:hover{
+        background: rgb(2,0,36);
+        background: linear-gradient(292deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+        color: white;
+    }
+}
+
 .tdNameNavLink{
     text-decoration: none;
     color: $win-theme-dark-blue;
@@ -235,7 +244,7 @@
     padding: 8px 8px 8px 14px;
 }
 
-.tdCity, .tdAccessType{
+.tdCity{
     padding: 8px 8px 8px 14px;
 }
 
@@ -245,4 +254,54 @@
     background-color: $win-theme-gray-background;
     color: $win-theme-dark-blue;
     border: 2px solid $win-theme-main-background;
+}
+
+.rdpCell{
+    padding: 8px 8px 8px 14px;
+}
+
+.remoteAccessTitle{
+    color: $win-theme-dark-blue;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.rdpIpBox{
+    color: $win-theme-dark-blue;
+    // border: 1px solid $win-theme-soft-blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 280px;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.rdpIpSpan{
+    font-size: 18px;
+    align-self: flex-start;
+}
+
+.rdpIpTextBox{
+    // background-color: $win-theme-dark-blue;
+    background-color: white;
+    // color: white;
+    color: $win-theme-dark-blue;
+    width: 100%;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px solid $win-theme-soft-blue;
+    &:hover{
+        background: linear-gradient(75deg, $win-theme-dark-blue, $win-theme-soft-blue);
+        color: white;
+    }
+}
+
+.rdpCommentBox{
+    // border: 1px solid $win-theme-soft-blue;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 10px;
 }

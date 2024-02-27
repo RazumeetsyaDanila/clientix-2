@@ -8,6 +8,7 @@ import CopiedText from './../../components/UI/copiedText/CopiedText';
 import { anydesk_get, rdp_get } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
 import clearImg from '../../img/clear-img.png';
+import Modal from '../../components/UI/modal/Modal';
 
 
 const TechPage = () => {
@@ -42,12 +43,11 @@ const TechPage = () => {
     }, [clients])
 
     const showRemoteAccess = async (orgId, accessType) => {
-        if (accessType === "anydesk") {
-            const data = await anydesk_get(orgId)
-            setAnydeskData(data)
-
+        if (accessType === "ANYDESK") {
+            // const data = await anydesk_get(orgId)
+            // setAnydeskData(data)
         }
-        if (accessType === "rdp") {
+        if (accessType === "RDP") {
             const data = await rdp_get(orgId)
             setRdpData(data)
         }
@@ -120,28 +120,63 @@ const TechPage = () => {
                                 .filter(c => c.ORG_NAME.toLowerCase().includes(textFilter.toLowerCase()))
                                 .map(c => <tr key={c.ORG_ID}>
                                     <td data-th="Название организации" className={s.tdName}> <NavLink className={s.tdNameNavLink} to={'/org/' + c.ORG_ID}><div className={s.tdNameNavLinkDiv}>{c.ORG_NAME}</div></NavLink></td>
-                                    <td data-th="Пароль админа" className={s.tdAdminPass}>{<CopiedText text={c.ORG_SIMED_PASS} />}</td>
+                                    <td data-th="Пароль админа" className={s.tdAdminPass}>{<CopiedText text={c.ORG_SIMED_ADMIN_PASS} />}</td>
                                     <td data-th="Доступ к серверу" className={s.tdAccessType}>
                                         {
-                                            c.ORG_REMOTE_ACCESS_TYPE === 'нет' ?
+                                            c.ORG_REMOTE_ACCESS_TYPE === 'NONE' ?
                                                 <div>
-                                                    {c.ORG_REMOTE_ACCESS_TYPE}
+
                                                 </div>
                                                 :
-                                                <div onClick={() => showRemoteAccess(c.ORG_ID, c.ORG_REMOTE_ACCESS_TYPE)}>
+                                                <div className={s.rdpCell} onClick={() => showRemoteAccess(c.ORG_ID, c.ORG_REMOTE_ACCESS_TYPE)}>
                                                     {c.ORG_REMOTE_ACCESS_TYPE}
                                                 </div>
                                         }
 
                                     </td>
                                     <td data-th="Город" className={s.tdCity}>{c.ORG_CITY}</td>
-                                    {/* <td className={s.tableTd + ' w-[200px]'} data-th="Комментарий">{c.comment}</td> */}
                                 </tr>
                                 )}
                         </tbody>
                     </table>
                 </div>
                 {/* ================================================================================================== */}
+
+                <Modal visible={remoteAccessModal} setVisible={setRemoteAccessModal}>
+                    <div className='flex flex-col items-center w-[380px]'>
+                        <p className={s.remoteAccessTitle}>Подключение по {remoteAccessType}</p>
+                        <div>
+                            {
+                                (() => {
+                                    switch (remoteAccessType) {
+                                        case 'RDP':
+                                            if (rdpData[0].id_org != 0) {
+                                                return <div>
+                                                    <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>IP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_IP} /></div></div>
+                                                    <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Логин</span> <div className={s.rdpIpTextBox}> <CopiedText text={rdpData[0].RDP_LOGIN} /> </div></div>
+                                                    <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Пароль</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_PASSWORD} /></div></div>
+                                                    <div className={s.rdpIpBox}><div className={s.rdpCommentBox}>{rdpData[0].RDP_COMMENT}</div></div>
+                                                </div>
+                                            }
+                                            else return <div>Нет данных rdp</div>
+
+                                        case 'ANYDESK':
+                                            if (anydeskData[0].id_org != 0) {
+                                                return <div className='flex flex-col items-center justify-center text-[20px]'>
+                                                    <div className='flex'><span className='mr-[10px]'>ID:</span> <CopiedText text={anydeskData[0].anydesk_id} /></div>
+                                                    <div className='flex' ><span className='mr-[10px]'>пароль:</span><CopiedText text={anydeskData[0].anydesk_password} /> </div>
+                                                </div>
+                                            }
+                                            else return <div>Нет данных anydesk</div>
+
+                                        default:
+                                            return <div></div>
+                                    }
+                                })()
+                            }
+                        </div>
+                    </div>
+                </Modal>
             </div>
         </div>
     );

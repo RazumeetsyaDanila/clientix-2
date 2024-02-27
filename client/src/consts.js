@@ -35,6 +35,7 @@ export const accessType = {
     ANYDESK: 'ANYDESK',
     RDP: 'RDP',
     VPNnRDP: 'VPN и RDP',
+    OTHER: 'Особенное',
     NONE: 'NONE'
 }
 
