@@ -20,7 +20,6 @@ if(placeOfWork == 'prod'){
 export const routes = {
     ADMIN_ROUTE: '/admin',
     TECH_ROUTE: '/tech',
-    SLAVE_ROUTE: '/slave',
     LOGIN_ROUTE: '/login',
     REAUTH_ROUTE: '/reauth',
     REGISTRATION_ROUTE: '/registration',
@@ -30,6 +29,13 @@ export const routes = {
     TAG_ADD_ROUTE: '/tag_add',
     ORG_ROUTE: '/org/:id',
     FILES_ROUTE: '/file'
+}
+
+export const accessType = {
+    ANYDESK: 'ANYDESK',
+    RDP: 'RDP',
+    VPNnRDP: 'VPN и RDP',
+    NONE: 'NONE'
 }
 
 export const correct_routes = ['admin', 'tech', 'slave', 'login', 'users', 'registration', 'org_add', 'tags', 'tag_add', 'file', 'org', 'reauth']

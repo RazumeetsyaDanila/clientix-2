@@ -127,7 +127,8 @@ const TagsPage = () => {
 
                 {/* ================================ таблица с тегами ======================================= */}
                 {
-                    loading ? <div className={s.loadingSpin}></div> :
+                    // крутилка загрузки
+                    // loading ? <div className={s.loadingSpin}></div> :
                         <div className={s.tableContainer}>
                             <table className={s.table}>
                                 <thead className={s.thead}>

@@ -7,6 +7,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import CopiedText from './../../components/UI/copiedText/CopiedText';
 import { anydesk_get, rdp_get } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
+import clearImg from '../../img/clear-img.png';
 
 
 const TechPage = () => {
@@ -24,6 +25,8 @@ const TechPage = () => {
     const clipboard = useClipboard()
 
     const currentTime = new Date().getHours();
+
+    const nameField = React.useRef(document.createElement("input"))
 
     const logOut = () => {
         unsetUser()
@@ -52,6 +55,11 @@ const TechPage = () => {
         setRemoteAccessType(accessType)
 
         // console.log(anydeskData[0].anydesk_id)
+    }
+
+    const clearSearch = () => {
+        nameField.current.focus()
+        setTextFilter('')
     }
 
     return (
@@ -87,7 +95,11 @@ const TechPage = () => {
                     }
                     {/* <h3 className={s.pageTitle}>Клиенты</h3> */}
                     <div className={s.headerPanel}>
+                        <input placeholder='Поиск организации...' ref={nameField} className={s.orgSearchInput} type="text" value={textFilter} onChange={e => setTextFilter(e.target.value)} />
 
+                        <img src={clearImg} alt="" className={s.clearSearchBtn} onClick={clearSearch} />
+
+                        <NavLink to='/org_add' className={s.orgAddBtn}>Добавить организацию</NavLink>
                     </div>
                 </div>
 
