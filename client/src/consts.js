@@ -35,8 +35,8 @@ export const accessType = {
     ANYDESK: 'ANYDESK',
     RDP: 'RDP',
     VPNnRDP: 'VPN и RDP',
-    OTHER: 'Особенное',
-    NONE: 'NONE'
+    OTHER: 'Особенный',
+    NONE: 'Нет'
 }
 
 export const correct_routes = ['admin', 'tech', 'slave', 'login', 'users', 'registration', 'org_add', 'tags', 'tag_add', 'file', 'org', 'reauth']

@@ -316,3 +316,62 @@
     font-size: 16px;
     margin-top: 10px;
 }
+
+.anydeskDataBox{
+    color: $win-theme-dark-blue;
+    // border: 1px solid $win-theme-soft-blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 280px;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.anydeskDataSpan{
+    font-size: 18px;
+    align-self: flex-start;
+}
+
+.anydeskTextBox{
+    background-color: white;
+    color: $win-theme-dark-blue;
+    width: 100%;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px solid $win-theme-soft-blue;
+    &:hover{
+        background: linear-gradient(75deg, $win-theme-dark-blue, $win-theme-soft-blue);
+        color: white;
+    }
+}
+
+.vpnDataSpan{
+    font-size: 18px;
+    align-self: flex-start;
+}
+
+.vpnTextBox{
+    width: 400px;
+    height: 90%;
+    margin-right: 20px;
+    background-color: white;
+    border: 1px solid $win-theme-soft-blue;
+    color: $win-theme-dark-blue;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.vpnRdpInfoContainer{
+    display: flex;
+}
+
+.otherDataBox{
+    width: 400px;
+    background-color: white;
+    border: 1px solid $win-theme-soft-blue;
+    color: $win-theme-dark-blue;
+    border-radius: 12px;
+    padding: 10px;
+}

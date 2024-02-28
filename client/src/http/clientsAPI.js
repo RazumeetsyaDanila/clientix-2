@@ -10,6 +10,16 @@ export const rdp_get = async (org_id) => {
     return (data)
 }
 
+export const vpn_get = async (org_id) => {
+    const {data} = await $authHost.post('api/user/get_vpn', {org_id})
+    return (data)
+}
+
+export const other_access_get = async (org_id) => {
+    const {data} = await $authHost.post('api/user/get_other_access', {org_id})
+    return (data)
+}
+
 // export const org_add = async (org_name, simed_admin_pass, remote_access,  city, comment) => {
 //     const {data} = await $authHost.post('api/user/add_org', {org_name, simed_admin_pass, remote_access, city, comment})
 //     return (data)

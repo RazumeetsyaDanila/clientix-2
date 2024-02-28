@@ -5,7 +5,7 @@ import s from './TechPage.module.scss'
 import { routes } from '../../consts';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import CopiedText from './../../components/UI/copiedText/CopiedText';
-import { anydesk_get, rdp_get } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
 import clearImg from '../../img/clear-img.png';
 import appLogo from '../../img/tech-alien64.png';
@@ -20,6 +20,8 @@ const TechPage = () => {
     const [remoteAccessModal, setRemoteAccessModal] = useState(false)
     const [anydeskData, setAnydeskData] = useState([{}])
     const [rdpData, setRdpData] = useState([{}])
+    const [vpnData, setVpnData] = useState([{}])
+    const [otherAccessData, setOtherAccessData] = useState([{}])
     const [remoteAccessType, setRemoteAccessType] = useState("")
     const { isAuth } = useTypedSelector(state => state.user)
     const currentUserLogin = useTypedSelector(state => state.user.login)
@@ -46,12 +48,22 @@ const TechPage = () => {
 
     const showRemoteAccess = async (orgId, accessType) => {
         if (accessType === "ANYDESK") {
-            // const data = await anydesk_get(orgId)
-            // setAnydeskData(data)
+            const data = await anydesk_get(orgId)
+            setAnydeskData(data)
         }
         if (accessType === "RDP") {
             const data = await rdp_get(orgId)
             setRdpData(data)
+        }
+        if (accessType === "VPN и RDP") {
+            const rdp = await rdp_get(orgId)
+            setRdpData(rdp)
+            const vpn = await vpn_get(orgId)
+            setVpnData(vpn)
+        }
+        if (accessType === "Особенный") {
+            const otherAccess = await other_access_get(orgId)
+            setOtherAccessData(otherAccess)
         }
         setRemoteAccessModal(true)
         setRemoteAccessType(accessType)
@@ -125,9 +137,9 @@ const TechPage = () => {
                                     <td data-th="Пароль админа" className={s.tdAdminPass}>{<CopiedText text={c.ORG_SIMED_ADMIN_PASS} />}</td>
                                     <td data-th="Доступ к серверу" className={s.tdAccessType}>
                                         {
-                                            c.ORG_REMOTE_ACCESS_TYPE === 'NONE' ?
-                                                <div>
-
+                                            c.ORG_REMOTE_ACCESS_TYPE === 'Нет' ?
+                                                <div className={s.rdpCell}>
+                                                    Нет доступа
                                                 </div>
                                                 :
                                                 <div className={s.rdpCell} onClick={() => showRemoteAccess(c.ORG_ID, c.ORG_REMOTE_ACCESS_TYPE)}>
@@ -145,15 +157,16 @@ const TechPage = () => {
                 {/* ================================================================================================== */}
 
                 <Modal visible={remoteAccessModal} setVisible={setRemoteAccessModal}>
-                    <div className='flex flex-col items-center w-[380px]'>
-                        <p className={s.remoteAccessTitle}>Подключение по {remoteAccessType}</p>
+                    <div>
                         <div>
                             {
                                 (() => {
                                     switch (remoteAccessType) {
                                         case 'RDP':
-                                            if (rdpData[0].id_org != 0) {
+                                            if (rdpData[0].ORG_ID != 0) {
                                                 return <div>
+                                                    <p className={s.remoteAccessTitle}>Данные {remoteAccessType}</p>
+
                                                     <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>IP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_IP} /></div></div>
                                                     <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Логин</span> <div className={s.rdpIpTextBox}> <CopiedText text={rdpData[0].RDP_LOGIN} /> </div></div>
                                                     <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Пароль</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_PASSWORD} /></div></div>
@@ -163,13 +176,62 @@ const TechPage = () => {
                                             else return <div>Нет данных rdp</div>
 
                                         case 'ANYDESK':
-                                            if (anydeskData[0].id_org != 0) {
-                                                return <div className='flex flex-col items-center justify-center text-[20px]'>
-                                                    <div className='flex'><span className='mr-[10px]'>ID:</span> <CopiedText text={anydeskData[0].anydesk_id} /></div>
-                                                    <div className='flex' ><span className='mr-[10px]'>пароль:</span><CopiedText text={anydeskData[0].anydesk_password} /> </div>
+                                            if (anydeskData[0].ORG_ID != 0) {
+                                                return <div>
+                                                    <p className={s.remoteAccessTitle}>Данные {remoteAccessType}</p>
+
+                                                    <div className={s.anydeskDataBox}><span className={s.anydeskDataSpan}>Номер Anydesk</span> <div className={s.anydeskTextBox}> <CopiedText text={anydeskData[0].ANYDESK_NUMBER} /> </div></div>
+                                                    <div className={s.anydeskDataBox}><span className={s.anydeskDataSpan}>Пароль Anydesk</span> <div className={s.anydeskTextBox}><CopiedText text={anydeskData[0].ANYDESK_PASSWORD} /></div></div>
+                                                    {
+                                                        anydeskData[0].ANYDESK_WINDOWS_LOGIN ?
+                                                            <div className={s.anydeskDataBox}><span className={s.anydeskDataSpan}>Логин уч. записи windows</span> <div className={s.anydeskTextBox}><CopiedText text={anydeskData[0].ANYDESK_WINDOWS_LOGIN} /></div></div>
+                                                            :
+                                                            <div>
+                                                            </div>
+                                                    }
+
+                                                    {
+                                                        anydeskData[0].ANYDESK_WINDOWS_PASSWORD ?
+                                                            <div className={s.anydeskDataBox}><span className={s.anydeskDataSpan}>Пароль уч. записи windows</span> <div className={s.anydeskTextBox}><CopiedText text={anydeskData[0].ANYDESK_WINDOWS_PASSWORD} /></div></div>
+                                                            :
+                                                            <div>
+                                                            </div>
+                                                    }
+                                                    <div className={s.anydeskDataBox}><div className={s.rdpCommentBox}>{anydeskData[0].ANYDESK_COMMENT}</div></div>
                                                 </div>
                                             }
                                             else return <div>Нет данных anydesk</div>
+
+                                        case 'VPN и RDP':
+                                            if (vpnData[0].ORG_ID != 0) {
+                                                return <div>
+                                                    <p className={s.remoteAccessTitle}>Данные {remoteAccessType}</p>
+
+                                                    <div className={s.vpnRdpInfoContainer}>
+                                                        <div className={s.vpnDataBox}><span className={s.vpnDataSpan}>VPN</span> <div className={s.vpnTextBox}>{vpnData[0].VPN_INFO}</div></div>
+                                                        <div>
+                                                            <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>IP RDP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_IP} /></div></div>
+                                                            <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Логин RDP</span> <div className={s.rdpIpTextBox}> <CopiedText text={rdpData[0].RDP_LOGIN} /> </div></div>
+                                                            <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Пароль RDP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_PASSWORD} /></div></div>
+                                                            <div className={s.rdpIpBox}><div className={s.rdpCommentBox}>{rdpData[0].RDP_COMMENT}</div></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else return <div>Нет данных VPN и RDP</div>
+                                        case 'Особенный':
+                                            // if (otherData[0].ORG_ID != 0) {
+                                            return <div>
+                                                <p className={s.remoteAccessTitle}>Данные подключения</p>
+                                                <div className={s.otherDataBox}><div className={s.otherTextBox}>{otherAccessData[0].OTHER_ACCESS_INFO}</div></div>
+                                            </div>
+                                        // }
+                                        // else return <div>Нет данных подключения</div>
+
+                                        case 'Нет':
+                                            return <div>
+                                                Нет данных подключения
+                                            </div>
 
                                         default:
                                             return <div></div>

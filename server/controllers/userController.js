@@ -66,6 +66,48 @@ class UserController {
             return res.json(e.message);
         }
     }
+
+    async get_anydesk(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let anydesk = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM ANYDESK_SERVER WHERE ORG_ID = @org_id')
+            return res.json(anydesk.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async get_vpn(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let vpn = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM VPN WHERE ORG_ID = @org_id')
+            return res.json(vpn.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async get_other_access(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let other_access = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM OTHER_ACCESS_SERVER WHERE ORG_ID = @org_id')
+            return res.json(other_access.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new UserController()
