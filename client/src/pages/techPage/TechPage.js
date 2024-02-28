@@ -28,8 +28,6 @@ const TechPage = () => {
     const { unsetUser, fetchClients, fetchTags } = useActions()
     const clipboard = useClipboard()
 
-    const currentTime = new Date().getHours();
-
     const nameField = React.useRef(document.createElement("input"))
 
     const logOut = () => {
@@ -67,8 +65,6 @@ const TechPage = () => {
         }
         setRemoteAccessModal(true)
         setRemoteAccessType(accessType)
-
-        // console.log(anydeskData[0].anydesk_id)
     }
 
     const clearSearch = () => {
@@ -91,23 +87,6 @@ const TechPage = () => {
             <div className={s.workPlaceContainer}>
                 <div className={s.headerContainer}>
                     <h3 className={s.helloTitle}>Количество организаций: {clients.length}</h3>
-                    {
-                        (() => {
-                            switch (true) {
-                                case currentTime <= 4:
-                                    return <h3 className={s.pageTitle}>Доброй ночи, {currentUserLogin}!</h3>
-                                case currentTime <= 12:
-                                    return <h3 className={s.pageTitle}>Доброе утро, {currentUserLogin}!</h3>
-                                case currentTime <= 17:
-                                    return <h3 className={s.pageTitle}>Добрый день, {currentUserLogin}!</h3>
-                                case currentTime <= 23:
-                                    return <h3 className={s.pageTitle}>Добрый вечер, {currentUserLogin}!</h3>
-                                default:
-                                    return <div></div>
-                            }
-                        })()
-                    }
-                    {/* <h3 className={s.pageTitle}>Клиенты</h3> */}
                     <div className={s.headerPanel}>
                         <input placeholder='Поиск организации...' ref={nameField} className={s.orgSearchInput} type="text" value={textFilter} onChange={e => setTextFilter(e.target.value)} />
 
@@ -139,7 +118,6 @@ const TechPage = () => {
                                         {
                                             c.ORG_REMOTE_ACCESS_TYPE === 'Нет' ?
                                                 <div className={s.rdpCell}>
-                                                    Нет доступа
                                                 </div>
                                                 :
                                                 <div className={s.rdpCell} onClick={() => showRemoteAccess(c.ORG_ID, c.ORG_REMOTE_ACCESS_TYPE)}>
@@ -213,7 +191,14 @@ const TechPage = () => {
                                                             <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>IP RDP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_IP} /></div></div>
                                                             <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Логин RDP</span> <div className={s.rdpIpTextBox}> <CopiedText text={rdpData[0].RDP_LOGIN} /> </div></div>
                                                             <div className={s.rdpIpBox}><span className={s.rdpIpSpan}>Пароль RDP</span> <div className={s.rdpIpTextBox}><CopiedText text={rdpData[0].RDP_PASSWORD} /></div></div>
-                                                            <div className={s.rdpIpBox}><div className={s.rdpCommentBox}>{rdpData[0].RDP_COMMENT}</div></div>
+                                                            {
+                                                                rdpData[0].RDP_COMMENT ?
+                                                                    <div className={s.rdpIpBox}><div className={s.rdpCommentBox}>{rdpData[0].RDP_COMMENT}</div></div>
+                                                                    :
+                                                                    <div>
+                                                                    </div>
+                                                            }
+
                                                         </div>
                                                     </div>
                                                 </div>

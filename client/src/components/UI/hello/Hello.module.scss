@@ -1,0 +1,47 @@
+@import '../../../theme.scss';
+
+.modal{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    color: white;
+    font-size: 28px;
+    background: rgba(0,0,0, 0.25);
+    backdrop-filter: blur(15px);
+}
+
+.modalContent{
+    margin-bottom: 50vh;
+    animation: moveBlock 1.6s linear;
+}
+
+@keyframes moveBlock {
+    0% {
+      transform: translateY(0); /* Начальное положение блока */
+    }
+    50% {
+      transform: translateY(-50px); /* Положение блока через 50% анимации */
+    }
+    100% {
+      transform: translateY(-50px); /* Конечное положение блока */
+    }
+}
+
+.modal.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
