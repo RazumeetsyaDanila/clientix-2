@@ -8,6 +8,7 @@ import CopiedText from './../../components/UI/copiedText/CopiedText';
 import { anydesk_get, rdp_get } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
 import clearImg from '../../img/clear-img.png';
+import appLogo from '../../img/tech-alien64.png';
 import Modal from '../../components/UI/modal/Modal';
 
 
@@ -32,6 +33,7 @@ const TechPage = () => {
     const logOut = () => {
         unsetUser()
     }
+
 
     useEffect(() => {
         fetchClients()
@@ -65,7 +67,7 @@ const TechPage = () => {
     return (
         <div className={s.container}>
             <div className={s.leftNavBarContainer}>
-                <h2 className={s.appTitle}>CLIENTIX 2.0</h2>
+                <h2 className={s.appTitle}><img className={s.logoImg} src={appLogo}></img> CLIENTIX 2.0</h2>
 
                 <div className={s.pageListContainer}>
                     <NavLink to='/tech' className={s.navLinkToTech}>Клиенты</NavLink>
@@ -76,7 +78,7 @@ const TechPage = () => {
             </div>
             <div className={s.workPlaceContainer}>
                 <div className={s.headerContainer}>
-                    {/* <h3 className={s.helloTitle}>Добро пожаловать, {currentUserLogin}!</h3> */}
+                    <h3 className={s.helloTitle}>Количество организаций: {clients.length}</h3>
                     {
                         (() => {
                             switch (true) {
@@ -109,7 +111,7 @@ const TechPage = () => {
                         <thead className={s.thead}>
                             <tr className={s.tr}>
                                 <th className={s.thName}>Название организации</th>
-                                <th className={s.thAdminPass}>Пароль админа</th>
+                                <th className={s.thAdminPass}>Пароль администратора в Симеде</th>
                                 <th className={s.thAccessType}>Доступ к серверу</th>
                                 <th className={s.thCity}>Город</th>
                                 {/* <th className={s.tableTd + ' w-[200px]'}>Комментарий</th> */}

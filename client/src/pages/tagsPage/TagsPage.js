@@ -9,6 +9,7 @@ import CopiedText from '../../components/UI/copiedText/CopiedText';
 import Modal from '../../components/UI/modal/Modal';
 import { delete_tag, update_tag } from '../../http/tagsAPI';
 import editBtn from "../../img/editing_min.png"
+import appLogo from '../../img/tech-alien64.png';
 
 
 const TagsPage = () => {
@@ -96,7 +97,7 @@ const TagsPage = () => {
     return (
         <div className={s.container}>
             <div className={s.leftNavBarContainer}>
-                <h2 className={s.appTitle}>CLIENTIX 2.0</h2>
+                <h2 className={s.appTitle}> <img className={s.logoImg} src={appLogo}></img>CLIENTIX 2.0</h2>
 
                 <div className={s.pageListContainer}>
                     <NavLink to='/tech' className={s.navLinkToTech}>Клиенты</NavLink>

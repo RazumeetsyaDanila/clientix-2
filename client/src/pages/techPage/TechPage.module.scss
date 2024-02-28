@@ -104,6 +104,7 @@
 .helloTitle{
     color: $win-theme-dark-blue;
     user-select: none;
+    margin-left: 10px;
 }
 
 .pageTitle{
@@ -117,8 +118,16 @@
     color: white;
     font-size: 18px;
     text-align: center;
-    margin-top: 24px;
+    margin-top: 20px;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImg{
+    width: 32px;
+    margin-right: 10px;
 }
 
 .exitBtn{
@@ -209,7 +218,9 @@
 	background: #161C4F;
     color: white;
 }
-
+.thAdminPass{
+    width: 20%;
+}
 .thAccessType{
     width: 20%;
 }

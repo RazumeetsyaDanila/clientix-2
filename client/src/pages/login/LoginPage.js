@@ -4,6 +4,7 @@ import { useActions } from '../../hooks/useActions';
 import s from './LoginPage.module.scss'
 import { loginf } from '../../http/userAPI';
 import { routes } from '../../consts';
+import appLogo from '../../img/tech-alien64.png';
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -60,7 +61,7 @@ const LoginPage = () => {
                     <button onClick={auth}>Войти</button>
                 </div>
             </div>
-            <h3 className={s.appTitle}>CLIENTIX 2.0</h3>
+            <h3 className={s.appTitle}> <img className={s.logoImg} src={appLogo}></img> CLIENTIX 2.0</h3>
             {/* <div className='mb-3 text-3xl'>Авторизация</div>
             <input className='authInput' type="text" placeholder="login" value={login} onChange={e => setLogin(e.target.value)} />
             <input className='authInput' type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
