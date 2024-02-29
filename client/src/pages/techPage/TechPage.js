@@ -5,7 +5,7 @@ import s from './TechPage.module.scss'
 import { routes } from '../../consts';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import CopiedText from './../../components/UI/copiedText/CopiedText';
-import { anydesk_get, rdp_get, vpn_get, other_access_get } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_add } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
 import clearImg from '../../img/clear-img.png';
 import appLogo from '../../img/tech-alien64.png';
@@ -17,6 +17,9 @@ const TechPage = () => {
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     const [currentClients, setCurrentClients] = useState(clients)
     const [textFilter, setTextFilter] = useState('')
+    const [orgAddModal, setOrgAddModal] = useState(false)
+    const [newOrgName, setNewOrgName] = useState('')
+    const [newOrgCity, setNewOrgCity] = useState('')
     const [remoteAccessModal, setRemoteAccessModal] = useState(false)
     const [anydeskData, setAnydeskData] = useState([{}])
     const [rdpData, setRdpData] = useState([{}])
@@ -72,6 +75,27 @@ const TechPage = () => {
         setTextFilter('')
     }
 
+    const orgAdd = async () => {
+        try {
+            // if (tagName === '' || tagValue1 === '') {
+            //     setErrorModal2(true)
+            //     return
+            // }
+            if(newOrgName != ''){
+                await org_add(newOrgName, newOrgCity)
+                // setSuccessModal(true)
+                
+                setTimeout(() => fetchClients(), 100)
+                setNewOrgName('')
+                setNewOrgCity('')
+                setOrgAddModal(false)
+            }            
+            // currentUserRole == 'admin' ? navigate(routes.ADMIN_ROUTE) : navigate(routes.SLAVE_ROUTE)
+        } catch (e) {
+            console.log(e.response.message)
+        }
+    }
+
     return (
         <div className={s.container}>
             <div className={s.leftNavBarContainer}>
@@ -92,7 +116,7 @@ const TechPage = () => {
 
                         <img src={clearImg} alt="" className={s.clearSearchBtn} onClick={clearSearch} />
 
-                        <NavLink to='/org_add' className={s.orgAddBtn}>Добавить организацию</NavLink>
+                        <div className={s.orgAddBtn} onClick={() => { setOrgAddModal(true) }}>Добавить организацию</div>
                     </div>
                 </div>
 
@@ -224,6 +248,19 @@ const TechPage = () => {
                                 })()
                             }
                         </div>
+                    </div>
+                </Modal>
+
+
+                <Modal visible={orgAddModal} setVisible={setOrgAddModal}>
+                    <div className={s.addOrgContainer}>
+                        <h2 className={s.addOrgTitle}> Добавление организации </h2>
+                        <div className={s.addOrgInputContainer}>
+                            <input className={s.addOrgInput} type="text" placeholder="Наименование организации" value={newOrgName} onChange={e => setNewOrgName(e.target.value)} />
+                            <input className={s.addOrgInput} type="text" placeholder="Город" value={newOrgCity} onChange={e => setNewOrgCity(e.target.value)} />
+                        </div>
+
+                        <button className={s.addOrgBtn} onClick={orgAdd}>Добавить</button>
                     </div>
                 </Modal>
             </div>

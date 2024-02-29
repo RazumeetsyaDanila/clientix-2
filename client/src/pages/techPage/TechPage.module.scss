@@ -210,6 +210,7 @@
     border-radius: 20px;
     overflow: hidden;
     margin-bottom: 10px;
+    user-select: none;
 }
 
 .thName, .thAdminPass, .thAccessType, .thCity{
@@ -374,4 +375,46 @@
     color: $win-theme-dark-blue;
     border-radius: 12px;
     padding: 10px;
+}
+
+.addOrgContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addOrgTitle{
+    color: $win-theme-dark-blue;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.addOrgInputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.addOrgInput{
+    width: 420px;
+    height: 40px;
+    border-radius: 12px;
+    border: 2px solid $win-theme-soft-blue;
+    padding-left: 10px;
+    background-color: white;
+    font-size: 16px;
+
+    &:focus{
+        outline: 3px solid $win-theme-soft-blue;
+    }
+}
+
+.addOrgBtn{
+    margin-top: 20px;
+    width: 200px;
+    border: 2px solid $win-theme-soft-blue;
+
+    &:hover{
+        border: none;
+    }
 }

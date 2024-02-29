@@ -108,6 +108,27 @@ class UserController {
             return res.json(e.message);
         }
     }
+
+    async add_org(req, res, next) {
+        try {
+            const { org_name, org_city} = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_name', sql.VarChar, org_name)
+                .input('city', sql.VarChar, org_city)
+                .query('INSERT INTO ORGANIZATION (org_name, org_city)' +
+                    'VALUES (@org_name, @city)')
+
+            let orgId = await pool.request()
+            .input('org_name', sql.VarChar, org_name)
+            .query('SELECT * FROM ORGANIZATION WHERE ORG_NAME = @org_name')
+
+            return res.json(orgId.recordset[0].ORG_ID)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new UserController()

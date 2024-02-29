@@ -36,8 +36,16 @@
     color: white;
     font-size: 18px;
     text-align: center;
-    margin-top: 24px;
+    margin-top: 20px;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImg{
+    width: 32px;
+    margin-right: 10px;
 }
 
 .backBtn{

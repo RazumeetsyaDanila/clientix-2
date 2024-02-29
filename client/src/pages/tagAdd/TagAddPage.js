@@ -7,6 +7,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import backBtnImg from '../../img/previous.png';
 import { tag_add } from '../../http/tagsAPI';
 import Modal from '../../components/UI/modal/Modal';
+import appLogo from '../../img/tech-alien64.png';
 
 
 const TagAddPage = () => {
@@ -61,7 +62,7 @@ const TagAddPage = () => {
     return (
         <div className={s.container}>
             <div className={s.leftNavBarContainer}>
-                <h2 className={s.appTitle}>CLIENTIX 2.0</h2>
+            <h2 className={s.appTitle}><img className={s.logoImg} src={appLogo}></img> CLIENTIX 2.0</h2>
 
                 <NavLink to='/tags' className={s.backBtn}>
                     <img src={backBtnImg} alt="" />
