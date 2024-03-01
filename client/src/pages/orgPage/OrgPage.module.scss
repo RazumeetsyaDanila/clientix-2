@@ -147,7 +147,7 @@
 .OrgCardContainer{
     margin-top: 20px;
     width: 60vw;
-    height: 90%;
+    // height: 90%;
     background-color: $win-theme-gray-background;
     align-self: center;
     border-radius: 12px;
@@ -161,4 +161,54 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.orgInfoContainer{
+    color: $win-theme-dark-blue;
+    padding: 20px 20px 20px 20px;
+    font-size: 18px;
+}
+
+// .orgInfoCity{
+//     margin-bottom: 10px;
+// }
+
+.orgInfoComment{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.infoTitle{
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+.infoTitleSimedPass{
+    font-weight: bold;
+}
+
+.noCommentText{
+    text-align: center;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
+}
+
+.addInfoBtn{
+    width: 350px;
+    align-self: center;
+}
+
+.copiedSimedPasstextBox{
+    width: 200px;
+}
+.copiedSimedPasstextContainer{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
 }

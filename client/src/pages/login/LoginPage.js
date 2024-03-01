@@ -7,6 +7,7 @@ import { routes } from '../../consts';
 import appLogo from '../../img/tech-alien64.png';
 import LoginModal from '../../components/UI/loginModal/LoginModal'
 import Hello from '../../components/UI/hello/Hello'
+import sanyaSound from '../../sounds/sanya_sound.mp3';
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -25,6 +26,7 @@ const LoginPage = () => {
             if (data.role === 'admin') navigate(routes.ADMIN_ROUTE)
             if (data.role === 'tech'){
                 setHelloVisible(true)
+                if(login === 'alyona') alyonaSound()
                 setTimeout(() => {navigate(routes.TECH_ROUTE)}, 1500)
             }
         } catch (e) {
@@ -32,6 +34,12 @@ const LoginPage = () => {
             setErrorModal(true)
             // errorSound()
         }
+    }
+
+    const alyonaSound = () => {
+        let audio = new Audio()
+        audio.src = sanyaSound
+        audio.autoplay = true
     }
 
     // const loginSound = () => {

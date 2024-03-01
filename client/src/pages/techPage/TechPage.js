@@ -62,7 +62,7 @@ const TechPage = () => {
             const vpn = await vpn_get(orgId)
             setVpnData(vpn)
         }
-        if (accessType === "Особенный") {
+        if (accessType === "Описание подключения") {
             const otherAccess = await other_access_get(orgId)
             setOtherAccessData(otherAccess)
         }
@@ -77,10 +77,6 @@ const TechPage = () => {
 
     const orgAdd = async () => {
         try {
-            // if (tagName === '' || tagValue1 === '') {
-            //     setErrorModal2(true)
-            //     return
-            // }
             if(newOrgName != ''){
                 await org_add(newOrgName, newOrgCity)
                 // setSuccessModal(true)
@@ -228,7 +224,7 @@ const TechPage = () => {
                                                 </div>
                                             }
                                             else return <div>Нет данных VPN и RDP</div>
-                                        case 'Особенный':
+                                        case 'Описание подключения':
                                             // if (otherData[0].ORG_ID != 0) {
                                             return <div>
                                                 <p className={s.remoteAccessTitle}>Данные подключения</p>

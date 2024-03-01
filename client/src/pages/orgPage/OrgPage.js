@@ -3,10 +3,12 @@ import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import Modal from '../../components/UI/modal/Modal';
 import { org_delete, org_get } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_add } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
 import backBtnImg from '../../img/previous.png';
+import CopiedText from './../../components/UI/copiedText/CopiedText';
 
 
 const OrgPage = () => {
@@ -16,6 +18,8 @@ const OrgPage = () => {
 
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     let currentOrg = clients.find(clients => clients.ORG_ID == orgId)
+    // const [currentOrg, setCurrentOrg] = useState([{}])
+    
 
     const [currentOrgRemoteAccess, setCurrentOrgRemoteAccess] = useState([{}])
 
@@ -48,21 +52,28 @@ const OrgPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        // getRemoteAccess(orgIdNum, currentOrg.remote_access)
+        // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
+        // console.log(currentOrg)
+        getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
     }, [])
 
-    // const getRemoteAccess = async (orgIdNum, accessType) => {
-    //     if (accessType === "anydesk") {
-    //         const accessData = await anydesk_get(orgIdNum)
-    //         setCurrentOrgRemoteAccess(accessData)
-    //     }
-    //     if (accessType === "rdp") {
-    //         const accessData = await rdp_get(orgIdNum)
-    //         setCurrentOrgRemoteAccess(accessData)
-    //     }
+    const getRemoteAccess = async (orgIdNum, accessType) => {
+        if (accessType === "ANYDESK") {
+            const accessData = await anydesk_get(orgIdNum)
+            setCurrentOrgRemoteAccess(accessData)
+        }
+        if (accessType === "RDP") {
+            const accessData = await rdp_get(orgIdNum)
+            setCurrentOrgRemoteAccess(accessData)
+        }
+        if (accessType === "VPN и RDP") {
 
-    //     // console.log(anydeskData[0].anydesk_id)
-    // }
+        }
+        if (accessType === "Описание подключения") {
+            const accessData = await other_access_get(orgIdNum)
+            setCurrentOrgRemoteAccess(accessData)
+        }
+    }
 
     // const startDeleteOrg = () => {
     //     setDeleteConfirmModal(true)
@@ -141,7 +152,7 @@ const OrgPage = () => {
 
 
     // if (loading) return <h1 className='centerContainer h-screen text-2xl'>Идет загрузка...</h1>
-    if (error) return <h1 className='centerContainer h-screen text-2xl'>{error}</h1>
+    if (error) return <h1>{error}</h1>
     return (
         <div className={s.container}>
             <div className={s.leftNavBarContainer}>
@@ -164,7 +175,76 @@ const OrgPage = () => {
 
 
                 <div className={s.OrgCardContainer}>
-                        <h3 className={s.orgTitle}>{currentOrg.ORG_NAME}</h3>
+                    <h3 className={s.orgTitle}>{currentOrg.ORG_NAME}</h3>
+                    <div className={s.orgInfoContainer}>
+                        {
+                            currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS ?
+                                <div>
+                                    
+                                    {
+                                        currentOrg.ORG_CITY ?
+                                            <div>
+                                                <p className={s.orgInfoCity}> <span className={s.infoTitle}>Город:</span> {currentOrg.ORG_CITY}</p>
+                                            </div>
+                                            :
+                                            <div>
+                                            </div>
+                                    }
+                                    <p className={s.infoTitle}>{currentOrg.ORG_REMOTE_ACCESS_TYPE}</p>
+                                    {
+                                        (() => {
+                                            switch (currentOrg.ORG_REMOTE_ACCESS_TYPE) {
+                                                case 'ANYDESK':
+                                                    return <div>
+                                                        данные энидеск
+                                                    </div>
+                                                case 'RDP':
+                                                    return <div>
+                                                        данные рдп
+                                                    </div>
+                                                case 'VPN и RDP':
+                                                    return <div>
+                                                        данные впн и рдп
+                                                    </div>
+                                                case 'Описание подключения':
+                                                    return <div>
+                                                        {currentOrgRemoteAccess[0].OTHER_ACCESS_INFO}
+                                                    </div>
+                                                default:
+                                                    return <div></div>
+                                            }
+                                        })()
+                                    }
+
+                                    {
+                                        currentOrg.ORG_SIMED_ADMIN_PASS ?
+                                            <div className={s.copiedSimedPasstextContainer}>
+                                                <p className={s.infoTitleSimedPass}>Пароль в Симеде: </p> <div className={s.copiedSimedPasstextBox}><CopiedText text={currentOrg.ORG_SIMED_ADMIN_PASS} /></div>
+                                            </div>
+                                            :
+                                            <div>
+                                            </div>
+                                    }
+
+                                    {
+                                        currentOrg.ORG_COMMENT ?
+                                            <div>
+                                                <p className={s.infoTitle}>Комментарий по организации</p>
+                                                <p className={s.orgInfoComment}>{currentOrg.ORG_COMMENT}</p>
+                                            </div>
+                                            :
+                                            <div>
+                                                {/* <p className={s.noCommentText}>Комментария по организации нет</p> */}
+                                            </div>
+                                    }
+                                </div>
+
+                                :
+                                <div className={s.center}>
+                                    <button className={s.addInfoBtn}>Заполнить карточку организации</button>
+                                </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
