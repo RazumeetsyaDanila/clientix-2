@@ -4,6 +4,7 @@ import LoginPage from './pages/login/LoginPage';
 import TechPage from './pages/techPage/TechPage';
 import TagsPage from './pages/tagsPage/TagsPage';
 import TagAddPage from './pages/tagAdd/TagAddPage';
+import OrgPage from './pages/orgPage/OrgPage';
 
 export const publicRoutes = [
     {
@@ -28,5 +29,10 @@ export const techRoutes = [
     {
         path: routes.TAG_ADD_ROUTE,
         Component: TagAddPage
+    }
+    ,
+    {
+        path: routes.ORG_ROUTE,
+        Component: OrgPage
     }
 ]

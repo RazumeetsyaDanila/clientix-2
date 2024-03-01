@@ -108,7 +108,7 @@ const TagsPage = () => {
             </div>
             <div className={s.workPlaceContainer}>
                 <div className={s.headerContainer}>
-                    <h3 className={s.pageTitle}>Теги</h3>
+                    {/* <h3 className={s.pageTitle}>Теги</h3> */}
                     <div className={s.headerPanel}>
 
                         <input placeholder='Поиск тега по наименованию...' ref={nameField} className={s.tagSearchInput} type="text" value={textFilter} onChange={e => setTextFilter(e.target.value)} />
