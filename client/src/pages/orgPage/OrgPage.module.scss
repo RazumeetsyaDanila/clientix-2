@@ -181,7 +181,6 @@
 
 .infoTitle{
     font-weight: bold;
-    margin-top: 14px;
 }
 
 .infoTitleSimedPass{
@@ -207,8 +206,76 @@
 .copiedSimedPasstextBox{
     width: 200px;
 }
+
+.copiedAccessTextBox{
+    width: 250px;
+    border: 1px dashed black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.infoTitleAccess{
+    font-weight: bold;
+}
+.infoTitleAccessType{
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
 .copiedSimedPasstextContainer{
     display: flex;
     align-items: center;
-    margin-top: 10px;
+}
+
+.accessInfoMainContainer{
+    display: flex;
+}
+
+.copiedAccessInfoContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    width: 520px;
+}
+
+.anydeskCommentInfoBox{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.customHR{
+    margin: 20px 0;
+    background-color: $win-theme-dark-blue;
+    height: 2px;
+    border: none;
+    // width: 100%;
+}
+
+.customHR_left{
+    margin: 20px 0;
+    background-color: $win-theme-dark-blue;
+    height: 2px;
+    border: none;
+    width: 100%;
+    margin-right: 10px;
+}
+.customHR_right{
+    margin: 20px 0;
+    background-color: $win-theme-dark-blue;
+    height: 2px;
+    border: none;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.accessTitleHR{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

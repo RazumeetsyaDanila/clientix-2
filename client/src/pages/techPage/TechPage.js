@@ -14,6 +14,8 @@ import Modal from '../../components/UI/modal/Modal';
 
 const TechPage = () => {
 
+    const navigate = useNavigate()
+
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     const [currentClients, setCurrentClients] = useState(clients)
     const [textFilter, setTextFilter] = useState('')
@@ -78,13 +80,13 @@ const TechPage = () => {
     const orgAdd = async () => {
         try {
             if(newOrgName != ''){
-                await org_add(newOrgName, newOrgCity)
+                const newOrgId = await org_add(newOrgName, newOrgCity)
                 // setSuccessModal(true)
-                
                 setTimeout(() => fetchClients(), 100)
                 setNewOrgName('')
                 setNewOrgCity('')
                 setOrgAddModal(false)
+                // navigate('/org/' + newOrgId)
             }            
             // currentUserRole == 'admin' ? navigate(routes.ADMIN_ROUTE) : navigate(routes.SLAVE_ROUTE)
         } catch (e) {
@@ -253,7 +255,7 @@ const TechPage = () => {
                         <h2 className={s.addOrgTitle}> Добавление организации </h2>
                         <div className={s.addOrgInputContainer}>
                             <input className={s.addOrgInput} type="text" placeholder="Наименование организации" value={newOrgName} onChange={e => setNewOrgName(e.target.value)} />
-                            <input className={s.addOrgInput} type="text" placeholder="Город" value={newOrgCity} onChange={e => setNewOrgCity(e.target.value)} />
+                            {/* <input className={s.addOrgInput} type="text" placeholder="Город" value={newOrgCity} onChange={e => setNewOrgCity(e.target.value)} /> */}
                         </div>
 
                         <button className={s.addOrgBtn} onClick={orgAdd}>Добавить</button>

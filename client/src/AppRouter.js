@@ -11,7 +11,7 @@ const AppRouter = () => {
 
     let checkPath = false
     let current_path = window.location.href.replace(REACT_APP_URL, '')
-    current_path = current_path.replace(/[\d/]/g, '');
+    // current_path = current_path.replace(/[\d/]/g, '');
     if (correct_routes.indexOf(current_path) !== -1) checkPath = true
 
 

@@ -8,7 +8,7 @@ import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
 import backBtnImg from '../../img/previous.png';
-import CopiedText from './../../components/UI/copiedText/CopiedText';
+import CopiedText from '../../components/UI/copiedText/CopiedText';
 
 
 const OrgPage = () => {
@@ -19,7 +19,7 @@ const OrgPage = () => {
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     let currentOrg = clients.find(clients => clients.ORG_ID == orgId)
     // const [currentOrg, setCurrentOrg] = useState([{}])
-    
+
 
     const [currentOrgRemoteAccess, setCurrentOrgRemoteAccess] = useState([{}])
 
@@ -180,23 +180,62 @@ const OrgPage = () => {
                         {
                             currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS ?
                                 <div>
-                                    
                                     {
-                                        currentOrg.ORG_CITY ?
-                                            <div>
-                                                <p className={s.orgInfoCity}> <span className={s.infoTitle}>Город:</span> {currentOrg.ORG_CITY}</p>
-                                            </div>
-                                            :
-                                            <div>
-                                            </div>
+                                        currentOrg.ORG_CITY &&
+                                        <div>
+                                            <p className={s.orgInfoCity}> <span className={s.infoTitle}>Город:</span> {currentOrg.ORG_CITY}</p>
+                                        </div>
                                     }
-                                    <p className={s.infoTitle}>{currentOrg.ORG_REMOTE_ACCESS_TYPE}</p>
+
+                                    {
+                                        currentOrg.ORG_SIMED_ADMIN_PASS &&
+                                        <div>
+                                            <hr className={s.customHR} />
+                                            <div className={s.copiedSimedPasstextContainer}>
+                                                <p className={s.infoTitleSimedPass}>Пароль в Симеде: </p> <div className={s.copiedSimedPasstextBox}><CopiedText text={currentOrg.ORG_SIMED_ADMIN_PASS} /></div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    {
+                                        currentOrg.ORG_REMOTE_ACCESS_TYPE &&
+                                        <div className={s.accessTitleHR}>
+                                            <hr className={s.customHR_left} />
+                                            <p className={s.infoTitleAccessType}>Доступ к серверу - {currentOrg.ORG_REMOTE_ACCESS_TYPE}</p>
+                                            <hr className={s.customHR_right} />
+                                        </div>
+                                    }
+
                                     {
                                         (() => {
                                             switch (currentOrg.ORG_REMOTE_ACCESS_TYPE) {
                                                 case 'ANYDESK':
-                                                    return <div>
-                                                        данные энидеск
+                                                    return <div className={s.accessInfoMainContainer}>
+                                                        <div>
+                                                            <div className={s.copiedAccessInfoContainer}>
+                                                                <p className={s.infoTitleAccess}>Номер anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_NUMBER} /></div>
+                                                            </div>
+                                                            <div className={s.copiedAccessInfoContainer}>
+                                                                <p className={s.infoTitleAccess}>Пароль anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_PASSWORD} /></div>
+                                                            </div>
+                                                            {currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN &&
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN} /></div>
+                                                                </div>
+                                                            }
+                                                            {currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD &&
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD} /></div>
+                                                                </div>
+                                                                // <p><span className={s.infoTitle}>Пароль уч. записи windows: </span>{currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD}</p>
+                                                            }
+                                                        </div>
+                                                        {currentOrgRemoteAccess[0].ANYDESK_COMMENT &&
+                                                            <div> 
+                                                                {/* <span className={s.infoTitle}>Комментарий </span> */}
+                                                                <p className={s.anydeskCommentInfoBox}>{currentOrgRemoteAccess[0].ANYDESK_COMMENT}</p>
+                                                            </div>
+                                                        }
                                                     </div>
                                                 case 'RDP':
                                                     return <div>
@@ -217,25 +256,12 @@ const OrgPage = () => {
                                     }
 
                                     {
-                                        currentOrg.ORG_SIMED_ADMIN_PASS ?
-                                            <div className={s.copiedSimedPasstextContainer}>
-                                                <p className={s.infoTitleSimedPass}>Пароль в Симеде: </p> <div className={s.copiedSimedPasstextBox}><CopiedText text={currentOrg.ORG_SIMED_ADMIN_PASS} /></div>
-                                            </div>
-                                            :
-                                            <div>
-                                            </div>
-                                    }
-
-                                    {
-                                        currentOrg.ORG_COMMENT ?
-                                            <div>
-                                                <p className={s.infoTitle}>Комментарий по организации</p>
-                                                <p className={s.orgInfoComment}>{currentOrg.ORG_COMMENT}</p>
-                                            </div>
-                                            :
-                                            <div>
-                                                {/* <p className={s.noCommentText}>Комментария по организации нет</p> */}
-                                            </div>
+                                        currentOrg.ORG_COMMENT &&
+                                        <div>
+                                            <hr className={s.customHR} />
+                                            <p className={s.infoTitle}>Комментарий по организации</p>
+                                            <p className={s.orgInfoComment}>{currentOrg.ORG_COMMENT}</p>
+                                        </div>
                                     }
                                 </div>
 
