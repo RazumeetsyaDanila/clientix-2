@@ -24,6 +24,7 @@ const OrgPage = () => {
     const [currentOrgRemoteAccess, setCurrentOrgRemoteAccess] = useState([{}])
 
     const [view, setView] = useState("main")
+    const [currentOrgVpn, setCurrentOrgVpn] = useState([{}])
 
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false)
     const [mainEditModal, setMainEditModal] = useState(false)
@@ -67,7 +68,10 @@ const OrgPage = () => {
             setCurrentOrgRemoteAccess(accessData)
         }
         if (accessType === "VPN и RDP") {
-
+            const accessData = await rdp_get(orgIdNum)
+            setCurrentOrgRemoteAccess(accessData)
+            const vpn = await vpn_get(orgIdNum)
+            setCurrentOrgVpn(vpn)
         }
         if (accessType === "Описание подключения") {
             const accessData = await other_access_get(orgIdNum)
@@ -178,11 +182,19 @@ const OrgPage = () => {
                     <h3 className={s.orgTitle}>{currentOrg.ORG_NAME}</h3>
                     <div className={s.orgInfoContainer}>
                         {
-                            currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS ?
+                            currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS || currentOrg.ORG_SQL_SA_PASS ?
                                 <div>
                                     {
+                                        (currentOrg.ORG_CITY || currentOrg.ORG_SIMED_ADMIN_PASS || currentOrg.ORG_SQL_SA_PASS) &&
+                                        <div className={s.mainTitleHR}>
+                                            <hr className={s.customHR_left} />
+                                            <p className={s.infoTitleAccessType}>Основная информация</p>
+                                            <hr className={s.customHR_right} />
+                                        </div>
+                                    }
+                                    {
                                         currentOrg.ORG_CITY &&
-                                        <div>
+                                        <div style={{marginBottom: '10px'}}>
                                             <p className={s.orgInfoCity}> <span className={s.infoTitle}>Город:</span> {currentOrg.ORG_CITY}</p>
                                         </div>
                                     }
@@ -190,9 +202,18 @@ const OrgPage = () => {
                                     {
                                         currentOrg.ORG_SIMED_ADMIN_PASS &&
                                         <div>
-                                            <hr className={s.customHR} />
+                                            {/* <hr className={s.customHR} /> */}
                                             <div className={s.copiedSimedPasstextContainer}>
                                                 <p className={s.infoTitleSimedPass}>Пароль в Симеде: </p> <div className={s.copiedSimedPasstextBox}><CopiedText text={currentOrg.ORG_SIMED_ADMIN_PASS} /></div>
+                                            </div>
+                                        </div>
+                                    }
+                                    {
+                                        currentOrg.ORG_SQL_SA_PASS &&
+                                        <div>
+                                            {/* <hr className={s.customHR} /> */}
+                                            <div className={s.copiedSimedPasstextContainer}>
+                                                <p className={s.infoTitleSimedPass}>Пароль SA: </p> <div className={s.copiedSimedPasstextBox}><CopiedText text={currentOrg.ORG_SQL_SA_PASS} /></div>
                                             </div>
                                         </div>
                                     }
@@ -231,19 +252,54 @@ const OrgPage = () => {
                                                             }
                                                         </div>
                                                         {currentOrgRemoteAccess[0].ANYDESK_COMMENT &&
-                                                            <div> 
+                                                            <div>
                                                                 {/* <span className={s.infoTitle}>Комментарий </span> */}
                                                                 <p className={s.anydeskCommentInfoBox}>{currentOrgRemoteAccess[0].ANYDESK_COMMENT}</p>
                                                             </div>
                                                         }
                                                     </div>
                                                 case 'RDP':
-                                                    return <div>
-                                                        данные рдп
+                                                    return <div className={s.accessInfoMainContainer}>
+                                                        <div>
+                                                            <div className={s.copiedAccessInfoContainer}>
+                                                                <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
+                                                            </div>
+                                                            <div className={s.copiedAccessInfoContainer}>
+                                                                <p className={s.infoTitleAccess}>Логин: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
+                                                            </div>
+                                                            <div className={s.copiedAccessInfoContainer}>
+                                                                <p className={s.infoTitleAccess}>Пароль: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
+                                                            </div>
+                                                        </div>
+                                                        {currentOrgRemoteAccess[0].RDP_COMMENT &&
+                                                            <div>
+                                                                <p className={s.anydeskCommentInfoBox}> <p className={s.infoTitleAccess}>Комментарий: </p> {currentOrgRemoteAccess[0].RDP_COMMENT}</p>
+                                                            </div>
+                                                        }
                                                     </div>
                                                 case 'VPN и RDP':
                                                     return <div>
-                                                        данные впн и рдп
+                                                        <div className={s.accessInfoMainContainer}>
+                                                            <div>
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
+                                                                </div>
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Логин: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
+                                                                </div>
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Пароль: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
+                                                                </div>
+                                                            </div>
+                                                            <div className={s.vpnInfoBox}>
+                                                                <p className={s.infoTitleAccess}>VPN: </p> <div>{currentOrgVpn[0].VPN_INFO}</div>
+                                                            </div>
+                                                        </div>
+                                                        {currentOrgRemoteAccess[0].RDP_COMMENT &&
+                                                            <div>
+                                                                {/* <p className={s.orgInfoComment}>{currentOrgRemoteAccess[0].RDP_COMMENT}</p> */}
+                                                            </div>
+                                                        }
                                                     </div>
                                                 case 'Описание подключения':
                                                     return <div>

@@ -43,7 +43,7 @@ class UserController {
         try {
             let pool = await sql.connect(sqlConfig)
             let organizations = await pool.request()
-                .query('SELECT ORG_ID, ORG_NAME,ORG_SIMED_ADMIN_PASS, ORG_REMOTE_ACCESS_TYPE, ORG_COMMENT, ORG_CITY FROM ORGANIZATION')
+                .query('SELECT * FROM ORGANIZATION')
 
             if (organizations.recordset.length == 0) return next(ApiError.internal('Ни одной организации не найдено'))
 

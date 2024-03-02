@@ -247,6 +247,15 @@
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
+    width: 580px;
+}
+
+.vpnInfoBox{
+    border: 1px dashed $win-theme-dark-blue;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 580px;
 }
 
 .customHR{
@@ -278,4 +287,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.mainTitleHR{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -20px;
 }
