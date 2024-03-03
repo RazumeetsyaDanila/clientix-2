@@ -24,6 +24,11 @@ export const org_add = async (org_name, org_city) => {
     const {data} = await $authHost.post('api/user/add_org', {org_name, org_city})
     return (data)
 }
+
+export const org_delete = async (org_id) => {
+    await $authHost.post('api/user/delete_org', {org_id})
+    return ("Удалено!")
+}
 // export const org_update = async (org_id, org_name, simed_admin_pass, remote_access,  city, comment) => {
 //     const {data} = await $authHost.post('api/user/update_org', {org_id, org_name, simed_admin_pass, remote_access, city, comment})
 //     return (data)

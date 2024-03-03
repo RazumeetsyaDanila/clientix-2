@@ -8,7 +8,8 @@ const generateJwt = (login, role) => {
     return jwt.sign(
         { login, role },
         process.env.SECRET_KEY,
-        { expiresIn: '24h' }
+        { expiresIn: '72h' }
+        // { expiresIn: '5s' }
     )
 }
 
@@ -111,7 +112,7 @@ class UserController {
 
     async add_org(req, res, next) {
         try {
-            const { org_name, org_city} = req.body
+            const { org_name, org_city } = req.body
             let pool = await sql.connect(sqlConfig)
 
             await pool.request()
@@ -121,10 +122,38 @@ class UserController {
                     'VALUES (@org_name, @city)')
 
             let orgId = await pool.request()
-            .input('org_name', sql.VarChar, org_name)
-            .query('SELECT * FROM ORGANIZATION WHERE ORG_NAME = @org_name')
+                .input('org_name', sql.VarChar, org_name)
+                .query('SELECT * FROM ORGANIZATION WHERE ORG_NAME = @org_name')
 
             return res.json(orgId.recordset[0].ORG_ID)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_org(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE FROM ANYDESK_SERVER WHERE ORG_ID = @org_id')
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE FROM VPN WHERE ORG_ID = @org_id')
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE FROM RDP_SERVER WHERE ORG_ID = @org_id')
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE FROM OTHER_ACCESS_SERVER WHERE ORG_ID = @org_id')
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE FROM ORGANIZATION WHERE ORG_ID = @org_id')
+
+
+            return res.json({ message: "Организация удалена!" })
         } catch (e) {
             return res.json(e.message);
         }

@@ -68,6 +68,19 @@
     align-items: center;
 }
 
+.headerPanelMin{
+    position: relative;
+    background: rgb(2,0,36);
+    background: linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(22,28,80,1) 60%);
+    width: 260px;
+    height: 50px;
+    border-radius: 20px;
+    border: 1px solid $win-theme-soft-blue;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
 .deleteOrgBtn{
     width: 220px;
     height: 30px;
@@ -221,7 +234,8 @@
 }
 .infoTitleAccessType{
     font-weight: bold;
-    width: 100%;
+    font-size: 20px;
+    width: 70%;
     text-align: center;
 }
 
@@ -247,7 +261,8 @@
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
-    width: 580px;
+    width: 100%;
+    // margin: 0 auto;
 }
 
 .vpnInfoBox{
@@ -294,4 +309,30 @@
     justify-content: space-between;
     align-items: center;
     margin-top: -20px;
+}
+
+.deleteModalYesNo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    gap: 20px;
+}
+
+.deleteModalYesBtn{
+    &:hover{
+        background: rgb(117,0,0);
+        background: linear-gradient(160deg, rgba(117,0,0,1) 0%, rgba(200,51,122,1) 80%);
+        color: #fff;
+        opacity: 1;
+        border: none;
+    }
+}
+
+.deleteModalTitle{
+    text-align: center;
+    color: $win-theme-dark-blue;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
 }

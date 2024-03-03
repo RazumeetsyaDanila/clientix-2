@@ -79,9 +79,9 @@ const OrgPage = () => {
         }
     }
 
-    // const startDeleteOrg = () => {
-    //     setDeleteConfirmModal(true)
-    // }
+    const startDeleteOrg = () => {
+        setDeleteConfirmModal(true)
+    }
 
     // const startEditOrg = () => {
     //     if (view === 'main') {
@@ -113,11 +113,11 @@ const OrgPage = () => {
     //     if (view === 'contacts') setContactsEditModal(true)
     // }
 
-    // const deleteOrg = () => {
-    //     org_delete(orgIdNum)
-    //     setDeleteConfirmModal(false)
-    //     navigate(routes.ADMIN_ROUTE)
-    // }
+    const deleteOrg = () => {
+        org_delete(orgIdNum)
+        setDeleteConfirmModal(false)
+        setTimeout(() => {navigate(routes.TECH_ROUTE)}, 200)
+    }
 
     // const applyEditAnydesk = () => {
     //     anydesk_update(currentOrgRemoteAccess[0].anydesk_id, editOrgAnydeskId, editOrgAnydeskPassword)
@@ -171,10 +171,18 @@ const OrgPage = () => {
                 <div className={s.headerContainer}>
                     <h3 className={s.pageTitle}>Карточка организации</h3>
 
-                    <div className={s.headerPanel}>
-                        <div className={s.editOrgBtn}>Редактировать</div>
-                        <div className={s.deleteOrgBtn}>Удалить организацию</div>
-                    </div>
+                    {
+                        currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS || currentOrg.ORG_SQL_SA_PASS ?
+                            <div className={s.headerPanel}>
+                                <div className={s.editOrgBtn}>Редактировать</div>
+                                <div className={s.deleteOrgBtn} onClick={startDeleteOrg}>Удалить организацию</div>
+                            </div>
+                            :
+                            <div className={s.headerPanelMin}>
+                                <div className={s.deleteOrgBtn} onClick={startDeleteOrg}>Удалить организацию</div>
+                            </div>
+                    }
+
                 </div>
 
 
@@ -194,7 +202,7 @@ const OrgPage = () => {
                                     }
                                     {
                                         currentOrg.ORG_CITY &&
-                                        <div style={{marginBottom: '10px'}}>
+                                        <div style={{ marginBottom: '10px' }}>
                                             <p className={s.orgInfoCity}> <span className={s.infoTitle}>Город:</span> {currentOrg.ORG_CITY}</p>
                                         </div>
                                     }
@@ -254,7 +262,7 @@ const OrgPage = () => {
                                                         {currentOrgRemoteAccess[0].ANYDESK_COMMENT &&
                                                             <div>
                                                                 {/* <span className={s.infoTitle}>Комментарий </span> */}
-                                                                <p className={s.anydeskCommentInfoBox}>{currentOrgRemoteAccess[0].ANYDESK_COMMENT}</p>
+                                                                <div className={s.anydeskCommentInfoBox}> <p className={s.infoTitleAccess}>Комментарий: </p> {currentOrgRemoteAccess[0].ANYDESK_COMMENT}</div>
                                                             </div>
                                                         }
                                                     </div>
@@ -273,7 +281,7 @@ const OrgPage = () => {
                                                         </div>
                                                         {currentOrgRemoteAccess[0].RDP_COMMENT &&
                                                             <div>
-                                                                <p className={s.anydeskCommentInfoBox}> <p className={s.infoTitleAccess}>Комментарий: </p> {currentOrgRemoteAccess[0].RDP_COMMENT}</p>
+                                                                <div className={s.anydeskCommentInfoBox}> <p className={s.infoTitleAccess}>Комментарий: </p> {currentOrgRemoteAccess[0].RDP_COMMENT}</div>
                                                             </div>
                                                         }
                                                     </div>
@@ -329,6 +337,16 @@ const OrgPage = () => {
                     </div>
                 </div>
             </div>
+        
+            <Modal visible={deleteConfirmModal} setVisible={setDeleteConfirmModal}>
+                <div>
+                    <p className={s.deleteModalTitle}>Удалить?</p>
+                    <div className={s.deleteModalYesNo}>
+                        <button className={s.deleteModalYesBtn} onClick={deleteOrg}>Да</button>
+                        <button onClick={() => setDeleteConfirmModal(false)}>Нет</button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };
