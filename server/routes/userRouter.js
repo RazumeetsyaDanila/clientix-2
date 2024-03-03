@@ -12,5 +12,7 @@ router.post('/get_vpn', authMiddleware, userController.get_vpn)
 router.post('/get_other_access', authMiddleware, userController.get_other_access)
 router.post('/add_org', authMiddleware, userController.add_org)
 router.post('/delete_org', authMiddleware, userController.delete_org)
+router.post('/get_org', authMiddleware, userController.get_org)
+router.post('/update_org', authMiddleware, userController.update_org)
 
 module.exports = router

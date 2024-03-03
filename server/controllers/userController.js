@@ -158,6 +158,46 @@ class UserController {
             return res.json(e.message);
         }
     }
+
+    
+
+    async update_org(req, res, next) {
+        try {
+            const { org_id, org_name, simed_admin_pass, sql_sa_pass, remote_access_type, city, comment } = req.body
+            let pool = await sql.connect(sqlConfig)
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('org_name', sql.VarChar, org_name)
+                .input('simed_admin_pass', sql.VarChar, simed_admin_pass)
+                .input('sql_sa_pass', sql.VarChar, sql_sa_pass)
+                .input('remote_access_type', sql.VarChar, remote_access_type)
+                .input('city', sql.VarChar, city)
+                .input('comment', sql.VarChar, comment)
+                .query('UPDATE ORGANIZATION SET ORG_NAME = @org_name, ' +
+                    'ORG_COMMENT = @comment, ORG_CITY = @city, ORG_REMOTE_ACCESS_TYPE = @remote_access_type, ' +
+                    'ORG_SIMED_ADMIN_PASS = @simed_admin_pass, ORG_SQL_SA_PASS = @sql_sa_pass ' +
+                    'WHERE ORG_ID = @org_id')
+            return res.json({ message: "Организация обновлена!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async get_org(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+            let organization = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM ORGANIZATION WHERE ORG_ID = @org_id')
+
+            if (organization.recordset.length == 0) return next(ApiError.internal('Ни одной организации не найдено'))
+
+            return res.json(organization.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new UserController()

@@ -341,5 +341,88 @@
 
 .editModalContainer{
     width: 65vw;
-    height: 70vh;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.editInputContainer{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.editMainInputContainer{
+    border: 1px dashed white;
+    border-radius: 10px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.editAccessInputContainer{
+    border: 1px dashed white;
+    border-radius: 10px;
+    width: 40%;
+}
+
+.editEgiszInputContainer{
+    border: 1px dashed white;
+    border-radius: 10px;
+    width: 40%;
+}
+
+.editPartTitle{
+    font-size: 20px;
+    color: $win-theme-dark-blue;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.editOrgInput{
+    // width: 360px;
+    width: 90%;
+    height: 35px;
+    border-radius: 12px;
+    border: 2px solid $win-theme-soft-blue;
+    padding-left: 10px;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+
+    &:focus{
+        outline: 1px solid $win-theme-soft-blue;
+    }
+}
+
+.editOrgTextarea{
+    width: 90%;
+    height: 35px;
+    border-radius: 12px;
+    border: 2px solid $win-theme-soft-blue;
+    padding: 6px 10px;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;
+    height: 120px;
+
+    &:focus{
+        outline: 1px solid $win-theme-soft-blue;
+    }
+}
+
+.editOrgInputLabel{
+    width: 90%;
+    color: $win-theme-dark-blue;
+    margin-left: 10px;
+}
+
+.applyEditbtn{
+    width: 240px;
+    align-self: center;
+    margin-top: 20px;
+    color: $win-theme-dark-blue;
 }

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from '../../hooks/useActions';
 import Modal from '../../components/UI/modal/Modal';
-import { org_delete, org_get } from '../../http/clientsAPI';
-import { anydesk_get, rdp_get, vpn_get, other_access_get, org_add } from '../../http/clientsAPI';
+// import {  } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
@@ -15,6 +16,8 @@ const OrgPage = () => {
     const params = useParams();
     const orgId = params.id;
     let orgIdNum = +orgId; //string to number
+
+    const {fetchClients} = useActions()
 
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     let currentOrg = clients.find(clients => clients.ORG_ID == orgId)
@@ -33,10 +36,12 @@ const OrgPage = () => {
     const [egiszEditModal, setEgiszEditModal] = useState(false)
     const [contactsEditModal, setContactsEditModal] = useState(false)
 
-    const [editOrgComment, setEditOrgComment] = useState('')
-    const [editOrgRemoteAccess, setEditOrgRemoteAccess] = useState('')
+    const [editOrgName, setEditOrgName] = useState('')
     const [editOrgCity, setEditOrgCity] = useState('')
     const [editOrgSimedAdminPass, setEditOrgSimedAdminPass] = useState('')
+    const [editOrgSqlSaPass, setEditOrgSqlSaPass] = useState('')
+    const [editOrgComment, setEditOrgComment] = useState('')
+    const [editOrgRemoteAccess, setEditOrgRemoteAccess] = useState('')
     const [editOrgAnydeskId, setEditOrgAnydeskId] = useState('')
     const [editOrgAnydeskPassword, setEditOrgAnydeskPassword] = useState('')
 
@@ -53,10 +58,16 @@ const OrgPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        // fetchClients()
         // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
-        // console.log(currentOrg)
-        getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
+        getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE) 
     }, [])
+
+    // useLayoutEffect(() => {
+    //     // fetchClients() //ломает удаление
+    //     setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
+    //     getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
+    // }, [clients])
 
     const getRemoteAccess = async (orgIdNum, accessType) => {
         if (accessType === "ANYDESK") {
@@ -115,10 +126,18 @@ const OrgPage = () => {
 
     const startEditOrg = () => {
         setEditModal(true)
+
+        setEditOrgName(currentOrg.ORG_NAME)
+        currentOrg.ORG_REMOTE_ACCESS_TYPE && setEditOrgRemoteAccess(currentOrg.ORG_REMOTE_ACCESS_TYPE)
+        currentOrg.ORG_CITY && setEditOrgCity(currentOrg.ORG_CITY)
+        currentOrg.ORG_SIMED_ADMIN_PASS && setEditOrgSimedAdminPass(currentOrg.ORG_SIMED_ADMIN_PASS)
+        currentOrg.ORG_SQL_SA_PASS && setEditOrgSqlSaPass(currentOrg.ORG_SQL_SA_PASS)
+        currentOrg.ORG_COMMENT && setEditOrgComment(currentOrg.ORG_COMMENT)
     }
 
     const deleteOrg = () => {
         org_delete(orgIdNum)
+        fetchClients()
         setDeleteConfirmModal(false)
         setTimeout(() => { navigate(routes.TECH_ROUTE) }, 200)
     }
@@ -130,33 +149,40 @@ const OrgPage = () => {
     // }
 
 
-    // const applyEditOrg = () => {
-    //     if (currentOrg.remote_access === editOrgRemoteAccess) {
-    //         if(editOrgRemoteAccess === 'anydesk') anydesk_update(currentOrgRemoteAccess[0].anydesk_id, editOrgAnydeskId, editOrgAnydeskPassword)
-    //         if(editOrgRemoteAccess === 'rdp') rdp_update(currentOrgRemoteAccess[0].rdp_id, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
-    //         getRemoteAccess(orgIdNum, editOrgRemoteAccess)
-    //         org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-    //         setMainEditModal(false)
-    //     }
-    //     if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'anydesk'){
-    //         rdp_delete(currentOrgRemoteAccess[0].rdp_id)
-    //         anydesk_add(editOrgAnydeskId, orgIdNum, editOrgAnydeskPassword)
-    //         org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-    //         setMainEditModal(false)
-    //     }
-    //     if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'rdp'){
-    //         anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
-    //         rdp_add(orgIdNum, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
-    //         org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-    //         setMainEditModal(false)
-    //     }
-    //     if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'нет'){
-    //         anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
-    //         rdp_delete(currentOrgRemoteAccess[0].rdp_id)
-    //         org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-    //         setMainEditModal(false)
-    //     }
-    // }
+    const applyEditOrg = () => {
+        org_update(orgIdNum, editOrgName, editOrgSimedAdminPass, editOrgSqlSaPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        // fetchClients()
+        navigate(routes.TECH_ROUTE)
+        // setEditModal(false)
+        // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
+
+
+        // if (currentOrg.remote_access === editOrgRemoteAccess) {
+        //     if(editOrgRemoteAccess === 'anydesk') anydesk_update(currentOrgRemoteAccess[0].anydesk_id, editOrgAnydeskId, editOrgAnydeskPassword)
+        //     if(editOrgRemoteAccess === 'rdp') rdp_update(currentOrgRemoteAccess[0].rdp_id, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
+        //     getRemoteAccess(orgIdNum, editOrgRemoteAccess)
+        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        //     setMainEditModal(false)
+        // }
+        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'anydesk'){
+        //     rdp_delete(currentOrgRemoteAccess[0].rdp_id)
+        //     anydesk_add(editOrgAnydeskId, orgIdNum, editOrgAnydeskPassword)
+        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        //     setMainEditModal(false)
+        // }
+        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'rdp'){
+        //     anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
+        //     rdp_add(orgIdNum, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
+        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        //     setMainEditModal(false)
+        // }
+        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'нет'){
+        //     anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
+        //     rdp_delete(currentOrgRemoteAccess[0].rdp_id)
+        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        //     setMainEditModal(false)
+        // }
+    }
 
 
     // if (loading) return <h1 className='centerContainer h-screen text-2xl'>Идет загрузка...</h1>
@@ -280,10 +306,10 @@ const OrgPage = () => {
                                                                 <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
                                                             </div>
                                                             <div className={s.copiedAccessInfoContainer}>
-                                                                <p className={s.infoTitleAccess}>Логин: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
+                                                                <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
                                                             </div>
                                                             <div className={s.copiedAccessInfoContainer}>
-                                                                <p className={s.infoTitleAccess}>Пароль: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
+                                                                <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
                                                             </div>
                                                         </div>
                                                         {currentOrgRemoteAccess[0].RDP_COMMENT &&
@@ -300,10 +326,10 @@ const OrgPage = () => {
                                                                     <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
                                                                 </div>
                                                                 <div className={s.copiedAccessInfoContainer}>
-                                                                    <p className={s.infoTitleAccess}>Логин: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
+                                                                    <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
                                                                 </div>
                                                                 <div className={s.copiedAccessInfoContainer}>
-                                                                    <p className={s.infoTitleAccess}>Пароль: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
+                                                                    <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
                                                                 </div>
                                                             </div>
                                                             <div className={s.vpnInfoBox}>
@@ -338,7 +364,7 @@ const OrgPage = () => {
 
                                 :
                                 <div className={s.center}>
-                                    <button className={s.addInfoBtn}>Заполнить карточку организации</button>
+                                    <button className={s.addInfoBtn} onClick={startEditOrg}>Заполнить карточку организации</button>
                                 </div>
                         }
                     </div>
@@ -358,7 +384,31 @@ const OrgPage = () => {
             {/* модальное окно редактирования */}
             <Modal visible={editModal} setVisible={setEditModal}>
                 <div className={s.editModalContainer}>
-                    Редактирование: {currentOrg.ORG_NAME}
+                    <div className={s.editInputContainer}>
+                        <div className={s.editMainInputContainer}>
+                            <h2 className={s.editPartTitle}> Основная информация </h2>
+                            <p className={s.editOrgInputLabel}>Наименование организации</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Наименование организации" value={editOrgName} onChange={e => setEditOrgName(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Город</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Город" value={editOrgCity} onChange={e => setEditOrgCity(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Пароль администратора в Симеде</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Пароль администратора в Симеде" value={editOrgSimedAdminPass} onChange={e => setEditOrgSimedAdminPass(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Пароль SA</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Пароль SA" value={editOrgSqlSaPass} onChange={e => setEditOrgSqlSaPass(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Комментарий</p>
+                            <textarea className={s.editOrgTextarea} type="text" value={editOrgComment} onChange={e => setEditOrgComment(e.target.value)} />
+                        </div>
+
+                        <div className={s.editAccessInputContainer}> Удаленный доступ </div>
+
+                        <div className={s.editEgiszInputContainer}> ЕГИСЗ </div>
+                    </div>
+
+                    <button className={s.applyEditbtn} onClick={applyEditOrg}>Подтвердить изменения</button>
                 </div>
             </Modal>
         </div>
