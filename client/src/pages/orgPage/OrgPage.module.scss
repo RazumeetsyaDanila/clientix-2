@@ -159,7 +159,8 @@
 
 .OrgCardContainer{
     margin-top: 20px;
-    width: 60vw;
+    // width: 60vw;
+    width: 1100px;
     // height: 90%;
     background-color: $win-theme-gray-background;
     align-self: center;
@@ -235,7 +236,7 @@
 .infoTitleAccessType{
     font-weight: bold;
     font-size: 20px;
-    width: 70%;
+    width: 230px;
     text-align: center;
 }
 
@@ -261,7 +262,7 @@
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
-    width: 100%;
+    width: 530px;
     // margin: 0 auto;
 }
 
@@ -302,6 +303,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .mainTitleHR{
@@ -335,4 +337,9 @@
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 20px;
+}
+
+.editModalContainer{
+    width: 65vw;
+    height: 70vh;
 }

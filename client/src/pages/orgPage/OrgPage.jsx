@@ -27,7 +27,7 @@ const OrgPage = () => {
     const [currentOrgVpn, setCurrentOrgVpn] = useState([{}])
 
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false)
-    const [mainEditModal, setMainEditModal] = useState(false)
+    const [editModal, setEditModal] = useState(false)
     const [databaseEditModal, setDatabaseEditModal] = useState(false)
     const [queueEditModal, setQueueEditModal] = useState(false)
     const [egiszEditModal, setEgiszEditModal] = useState(false)
@@ -113,10 +113,14 @@ const OrgPage = () => {
     //     if (view === 'contacts') setContactsEditModal(true)
     // }
 
+    const startEditOrg = () => {
+        setEditModal(true)
+    }
+
     const deleteOrg = () => {
         org_delete(orgIdNum)
         setDeleteConfirmModal(false)
-        setTimeout(() => {navigate(routes.TECH_ROUTE)}, 200)
+        setTimeout(() => { navigate(routes.TECH_ROUTE) }, 200)
     }
 
     // const applyEditAnydesk = () => {
@@ -174,7 +178,7 @@ const OrgPage = () => {
                     {
                         currentOrg.ORG_COMMENT || currentOrg.ORG_CITY || currentOrg.ORG_REMOTE_ACCESS_TYPE || currentOrg.ORG_SIMED_ADMIN_PASS || currentOrg.ORG_SQL_SA_PASS ?
                             <div className={s.headerPanel}>
-                                <div className={s.editOrgBtn}>Редактировать</div>
+                                <div className={s.editOrgBtn} onClick={startEditOrg}>Редактировать</div>
                                 <div className={s.deleteOrgBtn} onClick={startDeleteOrg}>Удалить организацию</div>
                             </div>
                             :
@@ -196,7 +200,7 @@ const OrgPage = () => {
                                         (currentOrg.ORG_CITY || currentOrg.ORG_SIMED_ADMIN_PASS || currentOrg.ORG_SQL_SA_PASS) &&
                                         <div className={s.mainTitleHR}>
                                             <hr className={s.customHR_left} />
-                                            <p className={s.infoTitleAccessType}>Основная информация</p>
+                                            <div> <p className={s.infoTitleAccessType}>Основная информация</p></div>
                                             <hr className={s.customHR_right} />
                                         </div>
                                     }
@@ -230,7 +234,10 @@ const OrgPage = () => {
                                         currentOrg.ORG_REMOTE_ACCESS_TYPE &&
                                         <div className={s.accessTitleHR}>
                                             <hr className={s.customHR_left} />
-                                            <p className={s.infoTitleAccessType}>Доступ к серверу - {currentOrg.ORG_REMOTE_ACCESS_TYPE}</p>
+                                            <div>
+                                                <p className={s.infoTitleAccessType}>Доступ к серверу </p>
+                                                <p className={s.infoTitleAccessType}>{currentOrg.ORG_REMOTE_ACCESS_TYPE}</p>
+                                            </div>
                                             <hr className={s.customHR_right} />
                                         </div>
                                     }
@@ -337,7 +344,7 @@ const OrgPage = () => {
                     </div>
                 </div>
             </div>
-        
+
             <Modal visible={deleteConfirmModal} setVisible={setDeleteConfirmModal}>
                 <div>
                     <p className={s.deleteModalTitle}>Удалить?</p>
@@ -345,6 +352,13 @@ const OrgPage = () => {
                         <button className={s.deleteModalYesBtn} onClick={deleteOrg}>Да</button>
                         <button onClick={() => setDeleteConfirmModal(false)}>Нет</button>
                     </div>
+                </div>
+            </Modal>
+
+            {/* модальное окно редактирования */}
+            <Modal visible={editModal} setVisible={setEditModal}>
+                <div className={s.editModalContainer}>
+                    Редактирование: {currentOrg.ORG_NAME}
                 </div>
             </Modal>
         </div>
