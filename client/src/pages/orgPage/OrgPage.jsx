@@ -17,7 +17,7 @@ const OrgPage = () => {
     const orgId = params.id;
     let orgIdNum = +orgId; //string to number
 
-    const {fetchClients} = useActions()
+    const { fetchClients } = useActions()
 
     const { clients, loading, error } = useTypedSelector(state => state.clients)
     let currentOrg = clients.find(clients => clients.ORG_ID == orgId)
@@ -41,26 +41,30 @@ const OrgPage = () => {
     const [editOrgSimedAdminPass, setEditOrgSimedAdminPass] = useState('')
     const [editOrgSqlSaPass, setEditOrgSqlSaPass] = useState('')
     const [editOrgComment, setEditOrgComment] = useState('')
-    const [editOrgRemoteAccess, setEditOrgRemoteAccess] = useState('')
-    const [editOrgAnydeskId, setEditOrgAnydeskId] = useState('')
-    const [editOrgAnydeskPassword, setEditOrgAnydeskPassword] = useState('')
 
-    const [editOrgRdpVpnIp, setEditOrgRdpVpnIp] = useState('')
-    const [editOrgRdpVpnLogin, setEditOrgRdpVpnLogin] = useState('')
-    const [editOrgRdpVpnPassword, setEditOrgRdpVpnPassword] = useState('')
-    const [editOrgRdpVpnType, setEditOrgRdpVpnType] = useState('')
+    const [editOrgRemoteAccess, setEditOrgRemoteAccess] = useState('')
+
+    const [editOrgAnydeskNumber, setEditOrgAnydeskNumber] = useState('')
+    const [editOrgAnydeskPassword, setEditOrgAnydeskPassword] = useState('')
+    const [editOrgAnydeskWinLogin, setEditOrgAnydeskWinLogin] = useState('')
+    const [editOrgAnydeskWinPassword, setEditOrgAnydeskWinPassword] = useState('')
+    const [editOrgAnydeskComment, setEditOrgAnydeskComment] = useState('')
+
     const [editOrgRdpIp, setEditOrgRdpIp] = useState('')
     const [editOrgRdpLogin, setEditOrgRdpLogin] = useState('')
     const [editOrgRdpPassword, setEditOrgRdpPassword] = useState('')
-    const [editOrgRdpWindowsLogin, setEditOrgRdpWindowsLogin] = useState('')
-    const [editOrgRdpWindowsPassword, setEditOrgRdpWindowsPassword] = useState('')
+    const [editOrgRdpComment, setEditOrgRdpComment] = useState('')
+
+    const [editOrgVpnInfo, setEditOrgVpnInfo] = useState('')
+
+    const [editOrgDescAccess, setEditOrgDescAccess] = useState('')
 
     const navigate = useNavigate()
 
     useEffect(() => {
         // fetchClients()
         // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
-        getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE) 
+        getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
     }, [])
 
     // useLayoutEffect(() => {
@@ -133,6 +137,12 @@ const OrgPage = () => {
         currentOrg.ORG_SIMED_ADMIN_PASS && setEditOrgSimedAdminPass(currentOrg.ORG_SIMED_ADMIN_PASS)
         currentOrg.ORG_SQL_SA_PASS && setEditOrgSqlSaPass(currentOrg.ORG_SQL_SA_PASS)
         currentOrg.ORG_COMMENT && setEditOrgComment(currentOrg.ORG_COMMENT)
+
+        currentOrgRemoteAccess[0].ANYDESK_NUMBER && setEditOrgAnydeskNumber(currentOrgRemoteAccess[0].ANYDESK_NUMBER)
+        currentOrgRemoteAccess[0].ANYDESK_PASSWORD && setEditOrgAnydeskPassword(currentOrgRemoteAccess[0].ANYDESK_PASSWORD)
+        currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN && setEditOrgAnydeskWinLogin(currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN)
+        currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD && setEditOrgAnydeskWinPassword(currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD)
+        currentOrgRemoteAccess[0].ANYDESK_COMMENT && setEditOrgAnydeskComment(currentOrgRemoteAccess[0].ANYDESK_COMMENT)
     }
 
     const deleteOrg = () => {
@@ -403,7 +413,77 @@ const OrgPage = () => {
                             <textarea className={s.editOrgTextarea} type="text" value={editOrgComment} onChange={e => setEditOrgComment(e.target.value)} />
                         </div>
 
-                        <div className={s.editAccessInputContainer}> Удаленный доступ </div>
+                        <div className={s.editAccessInputContainer}>
+                            <h2 className={s.editPartTitle}> Удаленный доступ </h2>
+
+                            <p className={s.editOrgInputLabel}>Тип подключения</p>
+                            <select className={s.editOrgSelect} value={editOrgRemoteAccess} onChange={e => setEditOrgRemoteAccess(e.target.value)} >
+                                <option value={'нет'}>нет</option>
+                                <option value={'ANYDESK'}>ANYDESK</option>
+                                <option value={'RDP'}>RDP</option>
+                                <option value={'VPN и RDP'}>VPN и RDP</option>
+                                <option value={'Описание подключения'}>Описание подключения</option>
+                            </select>
+
+                            {
+                                (() => {
+                                    switch (editOrgRemoteAccess) {
+                                        case 'ANYDESK':
+                                            return <div className={s.editOrgAccessBox}>
+                                                <p className={s.editOrgInputLabel}>Номер</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Номер" value={editOrgAnydeskNumber} onChange={e => setEditOrgAnydeskNumber(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Пароль</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Пароль" value={editOrgAnydeskPassword} onChange={e => setEditOrgAnydeskPassword(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Логин уч. записи windows</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Логин уч. записи windows" value={editOrgAnydeskWinLogin} onChange={e => setEditOrgAnydeskWinLogin(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Пароль уч. записи windows</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Пароль уч. записи windows" value={editOrgAnydeskWinPassword} onChange={e => setEditOrgAnydeskWinPassword(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Комментарий</p>
+                                                <textarea className={s.editOrgTextarea} type="text" value={editOrgAnydeskComment} onChange={e => setEditOrgAnydeskComment(e.target.value)} />
+                                            </div>
+                                        case 'RDP':
+                                            return <div className={s.editOrgAccessBox}>
+                                                <p className={s.editOrgInputLabel}>IP</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="IP" value={editOrgRdpIp} onChange={e => setEditOrgRdpIp(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Логин</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Логин" value={editOrgRdpLogin} onChange={e => setEditOrgRdpLogin(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Пароль</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Пароль" value={editOrgRdpPassword} onChange={e => setEditOrgRdpPassword(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Комментарий</p>
+                                                <textarea className={s.editOrgTextarea} type="text" value={editOrgRdpComment} onChange={e => setEditOrgRdpComment(e.target.value)} />
+                                            </div>
+                                        case 'VPN и RDP':
+                                            return <div className={s.editOrgAccessBox}>
+                                                <p className={s.editOrgInputLabel}>IP</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="IP" value={editOrgRdpIp} onChange={e => setEditOrgRdpIp(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Логин</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Логин" value={editOrgRdpLogin} onChange={e => setEditOrgRdpLogin(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>Пароль</p>
+                                                <input className={s.editOrgInput} type="text" placeholder="Пароль" value={editOrgRdpPassword} onChange={e => setEditOrgRdpPassword(e.target.value)} />
+
+                                                <p className={s.editOrgInputLabel}>VPN</p>
+                                                <textarea className={s.editOrgTextarea} type="text" value={editOrgVpnInfo} onChange={e => setEditOrgVpnInfo(e.target.value)} />
+                                            </div>
+                                        case 'Описание подключения':
+                                            return <div className={s.editOrgAccessBox}>
+                                                <p className={s.editOrgInputLabel}>Описание</p>
+                                                <textarea className={s.editOrgDescTextarea} type="text" value={editOrgDescAccess} onChange={e => setEditOrgDescAccess(e.target.value)} />
+                                            </div>
+                                        default:
+                                            return <div></div>
+                                    }
+                                })()
+                            }
+                        </div>
 
                         <div className={s.editEgiszInputContainer}> ЕГИСЗ </div>
                     </div>
