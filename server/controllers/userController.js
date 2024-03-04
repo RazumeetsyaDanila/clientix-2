@@ -68,6 +68,24 @@ class UserController {
         }
     }
 
+    async add_rdp(req, res, next) {
+        try {
+            const { org_id, rdp_ip, rdp_login, rdp_password, rdp_comment } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('rdp_ip', sql.VarChar, rdp_ip)
+                .input('rdp_login', sql.VarChar, rdp_login)
+                .input('rdp_password', sql.VarChar, rdp_password)
+                .input('rdp_comment', sql.VarChar, rdp_comment)
+                .query('INSERT INTO RDP_SERVER (ORG_ID, RDP_IP, RDP_LOGIN, RDP_PASSWORD, RDP_COMMENT) VALUES (@org_id, @rdp_ip, @rdp_login, @rdp_password, @rdp_comment)')
+                return res.json({ message: "rdp добавлен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
     async get_anydesk(req, res, next) {
         try {
             const { org_id } = req.body

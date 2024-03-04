@@ -14,5 +14,6 @@ router.post('/add_org', authMiddleware, userController.add_org)
 router.post('/delete_org', authMiddleware, userController.delete_org)
 router.post('/get_org', authMiddleware, userController.get_org)
 router.post('/update_org', authMiddleware, userController.update_org)
+router.post('/add_rdp', authMiddleware, userController.add_rdp)
 
 module.exports = router
