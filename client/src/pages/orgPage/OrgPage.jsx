@@ -3,7 +3,6 @@ import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import Modal from '../../components/UI/modal/Modal';
-// import {  } from '../../http/clientsAPI';
 import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete, other_access_add, other_access_delete, vpn_add, vpn_delete } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
@@ -176,6 +175,7 @@ const OrgPage = () => {
                 await other_access_add(orgIdNum, editOrgDescAccess)
                 break;
             case 'нет':
+                await vpn_delete(orgIdNum)
                 await anydesk_delete(orgIdNum)
                 await rdp_delete(orgIdNum)
                 await other_access_delete(orgIdNum)
@@ -258,7 +258,7 @@ const OrgPage = () => {
                                     }
 
                                     {
-                                        currentOrg.ORG_REMOTE_ACCESS_TYPE &&
+                                        (currentOrg.ORG_REMOTE_ACCESS_TYPE && currentOrg.ORG_REMOTE_ACCESS_TYPE != 'нет') &&
                                         <div className={s.accessTitleHR}>
                                             <hr className={s.customHR_left} />
                                             <div>

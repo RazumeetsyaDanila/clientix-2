@@ -4,7 +4,7 @@ import { useActions } from '../../hooks/useActions';
 import s from './TechPage.module.scss'
 import { routes } from '../../consts';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import CopiedText from './../../components/UI/copiedText/CopiedText';
+import CopiedText from '../../components/UI/copiedText/CopiedText';
 import { anydesk_get, rdp_get, vpn_get, other_access_get, org_add } from '../../http/clientsAPI';
 import { useClipboard } from 'use-clipboard-copy';
 import clearImg from '../../img/clear-img.png';
