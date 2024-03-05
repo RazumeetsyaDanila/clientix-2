@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import Modal from '../../components/UI/modal/Modal';
 // import {  } from '../../http/clientsAPI';
-import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete, other_access_add, other_access_delete, vpn_add, vpn_delete } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
@@ -25,9 +25,9 @@ const OrgPage = () => {
 
 
     const [currentOrgRemoteAccess, setCurrentOrgRemoteAccess] = useState([{}])
+    const [currentOrgVpn, setCurrentOrgVpn] = useState([{}])
 
     const [view, setView] = useState("main")
-    const [currentOrgVpn, setCurrentOrgVpn] = useState([{}])
 
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false)
     const [editModal, setEditModal] = useState(false)
@@ -98,36 +98,6 @@ const OrgPage = () => {
         setDeleteConfirmModal(true)
     }
 
-    // const startEditOrg = () => {
-    //     if (view === 'main') {
-    //         setMainEditModal(true)
-    //         setEditOrgComment(currentOrg.comment)
-    //         setEditOrgRemoteAccess(currentOrg.remote_access)
-    //         setEditOrgCity(currentOrg.city)
-    //         setEditOrgSimedAdminPass(currentOrg.simed_admin_pass)
-    //         if(currentOrg.remote_access === 'anydesk'){
-    //             setEditOrgAnydeskId(currentOrgRemoteAccess[0].anydesk_id)
-    //             setEditOrgAnydeskPassword(currentOrgRemoteAccess[0].anydesk_password)
-    //         }
-    //         if(currentOrg.remote_access === 'rdp'){
-    //             setEditOrgRdpVpnIp(currentOrgRemoteAccess[0].vpn_ip)
-    //             setEditOrgRdpVpnLogin(currentOrgRemoteAccess[0].vpn_login)
-    //             setEditOrgRdpVpnPassword(currentOrgRemoteAccess[0].vpn_password)
-    //             setEditOrgRdpVpnType(currentOrgRemoteAccess[0].vpn_type)
-    //             setEditOrgRdpIp(currentOrgRemoteAccess[0].rdp_ip)
-    //             setEditOrgRdpLogin(currentOrgRemoteAccess[0].rdp_login)
-    //             setEditOrgRdpPassword(currentOrgRemoteAccess[0].rdp_password)
-    //             setEditOrgRdpWindowsLogin(currentOrgRemoteAccess[0].windows_login)
-    //             setEditOrgRdpWindowsPassword(currentOrgRemoteAccess[0].windows_password)
-    //         }
-
-    //     }
-    //     if (view === 'database') setDatabaseEditModal(true)
-    //     if (view === 'queue') setQueueEditModal(true)
-    //     if (view === 'egisz') setEgiszEditModal(true)
-    //     if (view === 'contacts') setContactsEditModal(true)
-    // }
-
     const startEditOrg = () => {
         setEditModal(true)
 
@@ -148,23 +118,24 @@ const OrgPage = () => {
         currentOrgRemoteAccess[0].RDP_LOGIN && setEditOrgRdpLogin(currentOrgRemoteAccess[0].RDP_LOGIN)
         currentOrgRemoteAccess[0].RDP_PASSWORD && setEditOrgRdpPassword(currentOrgRemoteAccess[0].RDP_PASSWORD)
         currentOrgRemoteAccess[0].RDP_COMMENT && setEditOrgRdpComment(currentOrgRemoteAccess[0].RDP_COMMENT)
+
+        currentOrgRemoteAccess[0].OTHER_ACCESS_INFO && setEditOrgDescAccess(currentOrgRemoteAccess[0].OTHER_ACCESS_INFO)
+
+        currentOrgVpn[0].VPN_INFO && setEditOrgVpnInfo(currentOrgVpn[0].VPN_INFO)
     }
 
-    const deleteOrg = () => {
-        org_delete(orgIdNum)
-        fetchClients()
+    const deleteOrg = async () => {
+        await anydesk_delete(orgIdNum)
+        await other_access_delete(orgIdNum)
+        await rdp_delete(orgIdNum)
+        await org_delete(orgIdNum)
+
+        // fetchClients()
         setDeleteConfirmModal(false)
         setTimeout(() => { navigate(routes.TECH_ROUTE) }, 200)
     }
 
-    // const applyEditAnydesk = () => {
-    //     anydesk_update(currentOrgRemoteAccess[0].anydesk_id, editOrgAnydeskId, editOrgAnydeskPassword)
-    //     getRemoteAccess(orgIdNum, editOrgRemoteAccess)
-    //     setMainEditModal(false)
-    // }
-
-
-    const applyEditOrg = () => {
+    const applyEditOrg = async () => {
         org_update(orgIdNum, editOrgName, editOrgSimedAdminPass, editOrgSqlSaPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
         // fetchClients()
         navigate(routes.TECH_ROUTE)
@@ -172,49 +143,46 @@ const OrgPage = () => {
         // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
         switch (editOrgRemoteAccess) {
             case 'RDP':
-                anydesk_delete(orgIdNum)
-                rdp_delete(orgIdNum)
-                rdp_add(orgIdNum, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpComment)
+                await other_access_delete(orgIdNum)
+                await anydesk_delete(orgIdNum)
+                await rdp_delete(orgIdNum)
+                await vpn_delete(orgIdNum)
+
+                await rdp_add(orgIdNum, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpComment)
+                break;
+            case 'VPN и RDP':
+                await other_access_delete(orgIdNum)
+                await anydesk_delete(orgIdNum)
+                await rdp_delete(orgIdNum)
+                await vpn_delete(orgIdNum)
+
+                await rdp_add(orgIdNum, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpComment)
+                await vpn_add(orgIdNum, editOrgVpnInfo)
                 break;
             case 'ANYDESK':
-                rdp_delete(orgIdNum)
-                anydesk_delete(orgIdNum)
-                anydesk_add(orgIdNum, editOrgAnydeskNumber, editOrgAnydeskPassword, editOrgAnydeskWinLogin, editOrgAnydeskWinPassword, editOrgAnydeskComment )
+                await other_access_delete(orgIdNum)
+                await rdp_delete(orgIdNum)
+                await vpn_delete(orgIdNum)
+                await anydesk_delete(orgIdNum)
+
+                await anydesk_add(orgIdNum, editOrgAnydeskNumber, editOrgAnydeskPassword, editOrgAnydeskWinLogin, editOrgAnydeskWinPassword, editOrgAnydeskComment)
+                break;
+            case 'Описание подключения':
+                await rdp_delete(orgIdNum)
+                await vpn_delete(orgIdNum)
+                await anydesk_delete(orgIdNum)
+                await other_access_delete(orgIdNum)
+
+                await other_access_add(orgIdNum, editOrgDescAccess)
                 break;
             case 'нет':
-                rdp_delete(orgIdNum)
+                await anydesk_delete(orgIdNum)
+                await rdp_delete(orgIdNum)
+                await other_access_delete(orgIdNum)
                 break;
             default:
                 return 0
         }
-
-
-
-        // if (currentOrg.remote_access === editOrgRemoteAccess) {
-        //     if(editOrgRemoteAccess === 'anydesk') anydesk_update(currentOrgRemoteAccess[0].anydesk_id, editOrgAnydeskId, editOrgAnydeskPassword)
-        //     if(editOrgRemoteAccess === 'rdp') rdp_update(currentOrgRemoteAccess[0].rdp_id, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
-        //     getRemoteAccess(orgIdNum, editOrgRemoteAccess)
-        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-        //     setMainEditModal(false)
-        // }
-        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'anydesk'){
-        //     rdp_delete(currentOrgRemoteAccess[0].rdp_id)
-        //     anydesk_add(editOrgAnydeskId, orgIdNum, editOrgAnydeskPassword)
-        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-        //     setMainEditModal(false)
-        // }
-        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'rdp'){
-        //     anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
-        //     rdp_add(orgIdNum, editOrgRdpVpnIp, editOrgRdpVpnLogin, editOrgRdpVpnPassword, editOrgRdpVpnType, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpWindowsLogin, editOrgRdpWindowsPassword)
-        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-        //     setMainEditModal(false)
-        // }
-        // if(currentOrg.remote_access !== editOrgRemoteAccess && editOrgRemoteAccess === 'нет'){
-        //     anydesk_delete(currentOrgRemoteAccess[0].anydesk_id)
-        //     rdp_delete(currentOrgRemoteAccess[0].rdp_id)
-        //     org_update(orgIdNum, currentOrg.org_name, editOrgSimedAdminPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
-        //     setMainEditModal(false)
-        // }
     }
 
 

@@ -241,7 +241,7 @@ const TechPage = () => {
                                             </div>
 
                                         default:
-                                            return <div></div>
+                                            return <div className={s.remoteAccessTitle}>Нет данных подключения</div>
                                     }
                                 })()
                             }

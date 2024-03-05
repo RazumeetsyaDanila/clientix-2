@@ -35,8 +35,28 @@ export const vpn_get = async (org_id) => {
     return (data)
 }
 
+export const vpn_add = async (org_id, vpn_info) => {
+    const {data} = await $authHost.post('api/user/add_vpn', {org_id, vpn_info})
+    return (data)
+}
+
+export const vpn_delete = async (org_id) => {
+    const {data} = await $authHost.post('api/user/delete_vpn', {org_id})
+    return (data)
+}
+
 export const other_access_get = async (org_id) => {
     const {data} = await $authHost.post('api/user/get_other_access', {org_id})
+    return (data)
+}
+
+export const other_access_add = async (org_id, other_access_info) => {
+    const {data} = await $authHost.post('api/user/add_other_access', {org_id, other_access_info})
+    return (data)
+}
+
+export const other_access_delete = async (org_id) => {
+    const {data} = await $authHost.post('api/user/delete_other_access', {org_id})
     return (data)
 }
 

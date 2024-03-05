@@ -162,6 +162,36 @@ class UserController {
         }
     }
 
+    async add_vpn(req, res, next) {
+        try {
+            const { org_id, vpn_info } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('vpn_info', sql.VarChar, vpn_info)
+                .query('INSERT INTO VPN (ORG_ID, VPN_INFO)' +
+                    'VALUES (@org_id, @vpn_info)')
+            return res.json({ message: "vpn добавлен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_vpn(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE VPN WHERE ORG_ID = @org_id')
+            return res.json({ message: "vpn удален!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
     async get_other_access(req, res, next) {
         try {
             const { org_id } = req.body
@@ -171,6 +201,36 @@ class UserController {
                 .input('ORG_ID', sql.Int, org_id)
                 .query('SELECT * FROM OTHER_ACCESS_SERVER WHERE ORG_ID = @org_id')
             return res.json(other_access.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async add_other_access(req, res, next) {
+        try {
+            const { org_id, other_access_info } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('other_access_info', sql.VarChar, other_access_info)
+                .query('INSERT INTO OTHER_ACCESS_SERVER (ORG_ID, OTHER_ACCESS_INFO)' +
+                    'VALUES (@org_id, @other_access_info)')
+            return res.json({ message: "описание доступа добавлено!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_other_access(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE OTHER_ACCESS_SERVER WHERE ORG_ID = @org_id')
+            return res.json({ message: "описание доступа удалено!" })
         } catch (e) {
             return res.json(e.message);
         }
