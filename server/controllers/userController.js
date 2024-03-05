@@ -80,7 +80,21 @@ class UserController {
                 .input('rdp_password', sql.VarChar, rdp_password)
                 .input('rdp_comment', sql.VarChar, rdp_comment)
                 .query('INSERT INTO RDP_SERVER (ORG_ID, RDP_IP, RDP_LOGIN, RDP_PASSWORD, RDP_COMMENT) VALUES (@org_id, @rdp_ip, @rdp_login, @rdp_password, @rdp_comment)')
-                return res.json({ message: "rdp добавлен!" })
+            return res.json({ message: "rdp добавлен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_rdp(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE RDP_SERVER WHERE ORG_ID = @org_id')
+            return res.json({ message: "rdp удалено!" })
         } catch (e) {
             return res.json(e.message);
         }
@@ -95,6 +109,40 @@ class UserController {
                 .input('ORG_ID', sql.Int, org_id)
                 .query('SELECT * FROM ANYDESK_SERVER WHERE ORG_ID = @org_id')
             return res.json(anydesk.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async add_anydesk(req, res, next) {
+        try {
+            const { org_id, anydesk_number, anydesk_password, anydesk_windows_login, anydesk_windows_password, anydesk_comment } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('anydesk_number', sql.VarChar, anydesk_number)
+                .input('anydesk_password', sql.VarChar, anydesk_password)
+                .input('anydesk_windows_login', sql.VarChar, anydesk_windows_login)
+                .input('anydesk_windows_password', sql.VarChar, anydesk_windows_password)
+                .input('anydesk_comment', sql.VarChar, anydesk_comment)
+                .query('INSERT INTO ANYDESK_SERVER (ORG_ID, ANYDESK_NUMBER, ANYDESK_PASSWORD, ANYDESK_WINDOWS_LOGIN, ANYDESK_WINDOWS_PASSWORD, ANYDESK_COMMENT)' +
+                    'VALUES (@org_id, @anydesk_number, @anydesk_password, @anydesk_windows_login, @anydesk_windows_password, @anydesk_comment)')
+            return res.json({ message: "Anydesk добавлен!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_anydesk(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE ANYDESK_SERVER WHERE ORG_ID = @org_id')
+            return res.json({ message: "anydesk удален!" })
         } catch (e) {
             return res.json(e.message);
         }
@@ -177,7 +225,7 @@ class UserController {
         }
     }
 
-    
+
 
     async update_org(req, res, next) {
         try {

@@ -5,9 +5,29 @@ export const anydesk_get = async (org_id) => {
     return (data)
 }
 
+export const anydesk_add = async (org_id, anydesk_number, anydesk_password, anydesk_windows_login, anydesk_windows_password, anydesk_comment) => {
+    await $authHost.post('api/user/add_anydesk', {org_id, anydesk_number, anydesk_password, anydesk_windows_login, anydesk_windows_password, anydesk_comment})
+    return ("Добавлено!")
+}
+
+export const anydesk_delete = async (org_id) => {
+    await $authHost.post('api/user/delete_anydesk', {org_id})
+    return ("Удалено!")
+}
+
 export const rdp_get = async (org_id) => {
     const {data} = await $authHost.post('api/user/get_rdp', {org_id})
     return (data)
+}
+
+export const rdp_delete = async (org_id) => {
+    await $authHost.post('api/user/delete_rdp', {org_id})
+    return ("RDP удален!")
+}
+
+export const rdp_add = async (org_id, rdp_ip, rdp_login, rdp_password, rdp_comment) => {
+    await $authHost.post('api/user/add_rdp', {org_id, rdp_ip, rdp_login, rdp_password, rdp_comment})
+    return ("Добавлено!")
 }
 
 export const vpn_get = async (org_id) => {
@@ -64,15 +84,9 @@ export const org_get = async (org_id) => {
 
 
 
-// export const rdp_add = async (org_id, vpn_ip, vpn_login, vpn_password, vpn_type, rdp_ip, rdp_login, rdp_password, windows_login, windows_password) => {
-//     await $authHost.post('api/user/add_rdp', {org_id, vpn_ip, vpn_login, vpn_password, vpn_type, rdp_ip, rdp_login, rdp_password, windows_login, windows_password})
-//     return ("Добавлено!")
-// }
 
-// export const rdp_delete = async (rdp_id) => {
-//     await $authHost.post('api/user/delete_rdp', {rdp_id})
-//     return ("Добавлено!")
-// }
+
+
 
 // export const rdp_update = async (rdp_id, vpn_ip, vpn_login, vpn_password, vpn_type, rdp_ip, rdp_login, rdp_password, windows_login, windows_password) => {
 //     await $authHost.post('api/user/update_rdp', {rdp_id, vpn_ip, vpn_login, vpn_password, vpn_type, rdp_ip, rdp_login, rdp_password, windows_login, windows_password})

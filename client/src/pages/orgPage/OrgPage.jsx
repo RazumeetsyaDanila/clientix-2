@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import Modal from '../../components/UI/modal/Modal';
 // import {  } from '../../http/clientsAPI';
-import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
@@ -143,6 +143,11 @@ const OrgPage = () => {
         currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN && setEditOrgAnydeskWinLogin(currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN)
         currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD && setEditOrgAnydeskWinPassword(currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD)
         currentOrgRemoteAccess[0].ANYDESK_COMMENT && setEditOrgAnydeskComment(currentOrgRemoteAccess[0].ANYDESK_COMMENT)
+
+        currentOrgRemoteAccess[0].RDP_IP && setEditOrgRdpIp(currentOrgRemoteAccess[0].RDP_IP)
+        currentOrgRemoteAccess[0].RDP_LOGIN && setEditOrgRdpLogin(currentOrgRemoteAccess[0].RDP_LOGIN)
+        currentOrgRemoteAccess[0].RDP_PASSWORD && setEditOrgRdpPassword(currentOrgRemoteAccess[0].RDP_PASSWORD)
+        currentOrgRemoteAccess[0].RDP_COMMENT && setEditOrgRdpComment(currentOrgRemoteAccess[0].RDP_COMMENT)
     }
 
     const deleteOrg = () => {
@@ -165,6 +170,24 @@ const OrgPage = () => {
         navigate(routes.TECH_ROUTE)
         // setEditModal(false)
         // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
+        switch (editOrgRemoteAccess) {
+            case 'RDP':
+                anydesk_delete(orgIdNum)
+                rdp_delete(orgIdNum)
+                rdp_add(orgIdNum, editOrgRdpIp, editOrgRdpLogin, editOrgRdpPassword, editOrgRdpComment)
+                break;
+            case 'ANYDESK':
+                rdp_delete(orgIdNum)
+                anydesk_delete(orgIdNum)
+                anydesk_add(orgIdNum, editOrgAnydeskNumber, editOrgAnydeskPassword, editOrgAnydeskWinLogin, editOrgAnydeskWinPassword, editOrgAnydeskComment )
+                break;
+            case 'нет':
+                rdp_delete(orgIdNum)
+                break;
+            default:
+                return 0
+        }
+
 
 
         // if (currentOrg.remote_access === editOrgRemoteAccess) {
