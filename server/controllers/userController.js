@@ -324,6 +324,57 @@ class UserController {
             return res.json(e.message);
         }
     }
+
+    async get_egisz(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            let egisz = await pool.request()
+                .input('ORG_ID', sql.Int, org_id)
+                .query('SELECT * FROM EGISZ WHERE ORG_ID = @org_id')
+            return res.json(egisz.recordset)
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async add_egisz(req, res, next) {
+        try {
+            const { org_id, egisz_idlpu, egisz_guid, egisz_nhealth_login, egisz_nhealth_password, egisz_gateway_pc_ip, egisz_gateway_pc_login, egisz_gateway_pc_password, egisz_comment } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .input('egisz_idlpu', sql.VarChar, egisz_idlpu)
+                .input('egisz_guid', sql.VarChar, egisz_guid)
+                .input('egisz_nhealth_login', sql.VarChar, egisz_nhealth_login)
+                .input('egisz_nhealth_password', sql.VarChar, egisz_nhealth_password)
+                .input('egisz_gateway_pc_ip', sql.VarChar, egisz_gateway_pc_ip)
+                .input('egisz_gateway_pc_login', sql.VarChar, egisz_gateway_pc_login)
+                .input('egisz_gateway_pc_password', sql.VarChar, egisz_gateway_pc_password)
+                .input('egisz_comment', sql.VarChar, egisz_comment)
+                .query('INSERT INTO EGISZ (ORG_ID, EGISZ_IDLPU, EGISZ_GUID, EGISZ_NHEALTH_LOGIN, EGISZ_NHEALTH_PASSWORD, EGISZ_GATEWAY_PC_IP, EGISZ_GATEWAY_PC_LOGIN, EGISZ_GATEWAY_PC_PASSWORD, EGISZ_COMMENT)' +
+                    'VALUES (@org_id, @egisz_idlpu, @egisz_guid, @egisz_nhealth_login, @egisz_nhealth_password, @egisz_gateway_pc_ip, @egisz_gateway_pc_login, @egisz_gateway_pc_password, @egisz_comment)')
+            return res.json({ message: "egisz добавлено!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
+
+    async delete_egisz(req, res, next) {
+        try {
+            const { org_id } = req.body
+            let pool = await sql.connect(sqlConfig)
+
+            await pool.request()
+                .input('org_id', sql.Int, org_id)
+                .query('DELETE EGISZ WHERE ORG_ID = @org_id')
+            return res.json({ message: "egisz удалено!" })
+        } catch (e) {
+            return res.json(e.message);
+        }
+    }
 }
 
 module.exports = new UserController()

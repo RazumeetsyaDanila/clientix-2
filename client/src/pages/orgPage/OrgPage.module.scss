@@ -159,9 +159,8 @@
 
 .OrgCardContainer{
     margin-top: 20px;
-    // width: 60vw;
+    margin-bottom: 20px;
     width: 1100px;
-    // height: 90%;
     background-color: $win-theme-gray-background;
     align-self: center;
     border-radius: 12px;
@@ -230,6 +229,15 @@
     margin-left: 20px;
 }
 
+.copiedEgiszTextBox{
+    width: 410px;
+    border: 1px dashed black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin-left: 20px;
+}
+
 .infoTitleAccess{
     font-weight: bold;
 }
@@ -257,12 +265,29 @@
     width: 520px;
 }
 
+.copiedEgiszInfoContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    width: 580px;
+}
+
 .anydeskCommentInfoBox{
     border: 1px solid white;
     padding: 10px;
     border-radius: 10px;
     margin-left: 10px;
     width: 530px;
+    // margin: 0 auto;
+}
+
+.egiszCommentInfoBox{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 470px;
     // margin: 0 auto;
 }
 
@@ -341,7 +366,7 @@
 
 .editModalContainer{
     width: 65vw;
-    height: 55vh;
+    height: 750px;
     display: flex;
     flex-direction: column;
 }
@@ -416,7 +441,6 @@
 
 .editOrgTextarea{
     width: 90%;
-    height: 35px;
     border-radius: 12px;
     border: 2px solid $win-theme-soft-blue;
     padding: 6px 10px;
@@ -424,7 +448,39 @@
     font-size: 16px;
     margin-bottom: 10px;
     resize: none;
-    height: 120px;
+    height: 340px;
+
+    &:focus{
+        outline: 1px solid $win-theme-soft-blue;
+    }
+}
+
+.editOrgAnydeskComment{
+    width: 90%;
+    border-radius: 12px;
+    border: 2px solid $win-theme-soft-blue;
+    padding: 6px 10px;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;
+    height: 270px;
+
+    &:focus{
+        outline: 1px solid $win-theme-soft-blue;
+    }
+}
+
+.editOrgEgiszComment{
+    width: 90%;
+    border-radius: 12px;
+    border: 2px solid $win-theme-soft-blue;
+    padding: 6px 10px;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+    resize: none;
+    height: 135px;
 
     &:focus{
         outline: 1px solid $win-theme-soft-blue;
@@ -441,7 +497,7 @@
     font-size: 16px;
     margin-bottom: 10px;
     resize: none;
-    height: 325px;
+    height: 545px;
 
     &:focus{
         outline: 1px solid $win-theme-soft-blue;

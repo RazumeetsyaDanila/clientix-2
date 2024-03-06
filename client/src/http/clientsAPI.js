@@ -80,6 +80,21 @@ export const org_get = async (org_id) => {
     return (data)
 }
 
+export const egisz_get = async (org_id) => {
+    const {data} = await $authHost.post('api/user/get_egisz', {org_id})
+    return (data)
+}
+
+export const egisz_add = async (org_id, egisz_idlpu, egisz_guid, egisz_nhealth_login, egisz_nhealth_password, egisz_gateway_pc_ip, egisz_gateway_pc_login, egisz_gateway_pc_password, egisz_comment) => {
+    const {data} = await $authHost.post('api/user/add_egisz', {org_id, egisz_idlpu, egisz_guid, egisz_nhealth_login, egisz_nhealth_password, egisz_gateway_pc_ip, egisz_gateway_pc_login, egisz_gateway_pc_password, egisz_comment})
+    return (data)
+}
+
+export const egisz_delete = async (org_id) => {
+    await $authHost.post('api/user/delete_egisz', {org_id})
+    return ("Удалено!")
+}
+
 // export const org_delete = async (org_id) => {
 //     await $authHost.post('api/admin/delete_org', {org_id})
 //     return ("Удалено!")

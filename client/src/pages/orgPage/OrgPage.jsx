@@ -3,7 +3,7 @@ import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import Modal from '../../components/UI/modal/Modal';
-import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete, other_access_add, other_access_delete, vpn_add, vpn_delete } from '../../http/clientsAPI';
+import { anydesk_get, rdp_get, vpn_get, other_access_get, org_delete, org_get, org_update, rdp_add, rdp_delete, anydesk_add, anydesk_delete, other_access_add, other_access_delete, vpn_add, vpn_delete, egisz_add, egisz_get, egisz_delete } from '../../http/clientsAPI';
 import { routes } from '../../consts';
 import s from './OrgPage.module.scss';
 import appLogo from '../../img/tech-alien64.png';
@@ -25,15 +25,11 @@ const OrgPage = () => {
 
     const [currentOrgRemoteAccess, setCurrentOrgRemoteAccess] = useState([{}])
     const [currentOrgVpn, setCurrentOrgVpn] = useState([{}])
+    const [currentOrgEgisz, setCurrentOrgEgisz] = useState([{}])
 
-    const [view, setView] = useState("main")
 
     const [deleteConfirmModal, setDeleteConfirmModal] = useState(false)
     const [editModal, setEditModal] = useState(false)
-    const [databaseEditModal, setDatabaseEditModal] = useState(false)
-    const [queueEditModal, setQueueEditModal] = useState(false)
-    const [egiszEditModal, setEgiszEditModal] = useState(false)
-    const [contactsEditModal, setContactsEditModal] = useState(false)
 
     const [editOrgName, setEditOrgName] = useState('')
     const [editOrgCity, setEditOrgCity] = useState('')
@@ -58,12 +54,23 @@ const OrgPage = () => {
 
     const [editOrgDescAccess, setEditOrgDescAccess] = useState('')
 
+    const [editOrgEgiszIdlpu, setEditOrgEgiszIdlpu] = useState('')
+    const [editOrgEgiszGuid, setEditOrgEgiszGuid] = useState('')
+    const [editOrgEgiszNhealthLogin, setEditOrgEgiszNhealthLogin] = useState('')
+    const [editOrgEgiszNhealthPassword, setEditOrgEgiszNhealthPassword] = useState('')
+    const [editOrgEgiszGatewayPcIp, setEditOrgEgiszGatewayPcIp] = useState('')
+    const [editOrgEgiszGatewayPcLogin, setEditOrgEgiszGatewayPcLogin] = useState('')
+    const [editOrgEgiszGatewayPcPassword, setEditOrgEgiszGatewayPcPassword] = useState('')
+    const [editOrgEgiszComment, setEditOrgEgiszComment] = useState('')
+
     const navigate = useNavigate()
 
     useEffect(() => {
         // fetchClients()
         // setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
         getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
+        getEgisz(orgIdNum)
+
     }, [])
 
     // useLayoutEffect(() => {
@@ -71,6 +78,11 @@ const OrgPage = () => {
     //     setCurrentOrg(clients.find(clients => clients.ORG_ID == orgId))
     //     getRemoteAccess(orgIdNum, currentOrg.ORG_REMOTE_ACCESS_TYPE)
     // }, [clients])
+
+    const getEgisz = async (orgIdNum) => {
+        const egiszData = await egisz_get(orgIdNum)
+        setCurrentOrgEgisz(egiszData)
+    }
 
     const getRemoteAccess = async (orgIdNum, accessType) => {
         if (accessType === "ANYDESK") {
@@ -118,12 +130,23 @@ const OrgPage = () => {
         currentOrgRemoteAccess[0].RDP_PASSWORD && setEditOrgRdpPassword(currentOrgRemoteAccess[0].RDP_PASSWORD)
         currentOrgRemoteAccess[0].RDP_COMMENT && setEditOrgRdpComment(currentOrgRemoteAccess[0].RDP_COMMENT)
 
+
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_IDLPU && setEditOrgEgiszIdlpu(currentOrgEgisz[0].EGISZ_IDLPU)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_GUID && setEditOrgEgiszGuid(currentOrgEgisz[0].EGISZ_GUID)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN && setEditOrgEgiszNhealthLogin(currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD && setEditOrgEgiszNhealthPassword(currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP && setEditOrgEgiszGatewayPcIp(currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN && setEditOrgEgiszGatewayPcLogin(currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD && setEditOrgEgiszGatewayPcPassword(currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD)
+        currentOrgEgisz.length > 0 && currentOrgEgisz[0].EGISZ_COMMENT && setEditOrgEgiszComment(currentOrgEgisz[0].EGISZ_COMMENT)
+
         currentOrgRemoteAccess[0].OTHER_ACCESS_INFO && setEditOrgDescAccess(currentOrgRemoteAccess[0].OTHER_ACCESS_INFO)
 
         currentOrgVpn[0].VPN_INFO && setEditOrgVpnInfo(currentOrgVpn[0].VPN_INFO)
     }
 
     const deleteOrg = async () => {
+        await egisz_delete(orgIdNum)
         await anydesk_delete(orgIdNum)
         await other_access_delete(orgIdNum)
         await rdp_delete(orgIdNum)
@@ -136,6 +159,10 @@ const OrgPage = () => {
 
     const applyEditOrg = async () => {
         org_update(orgIdNum, editOrgName, editOrgSimedAdminPass, editOrgSqlSaPass, editOrgRemoteAccess, editOrgCity, editOrgComment)
+        await egisz_delete(orgIdNum)
+        if (editOrgEgiszIdlpu || editOrgEgiszGuid || editOrgEgiszNhealthLogin || editOrgEgiszNhealthPassword || editOrgEgiszGatewayPcIp || editOrgEgiszGatewayPcLogin || editOrgEgiszGatewayPcPassword || editOrgEgiszComment) {
+            await egisz_add(orgIdNum, editOrgEgiszIdlpu, editOrgEgiszGuid, editOrgEgiszNhealthLogin, editOrgEgiszNhealthPassword, editOrgEgiszGatewayPcIp, editOrgEgiszGatewayPcLogin, editOrgEgiszGatewayPcPassword, editOrgEgiszComment)
+        }
         // fetchClients()
         navigate(routes.TECH_ROUTE)
         // setEditModal(false)
@@ -354,6 +381,53 @@ const OrgPage = () => {
                                     }
 
                                     {
+                                        (currentOrgEgisz.length > 0) &&
+                                        <div className={s.accessTitleHR}>
+                                            <hr className={s.customHR_left} />
+                                            <div>
+                                                <p className={s.infoTitleAccessType}> ЕГИСЗ </p>
+                                            </div>
+                                            <hr className={s.customHR_right} />
+                                        </div>
+                                    }
+
+                                    {
+                                        (currentOrgEgisz.length > 0) &&
+                                        <div className={s.accessInfoMainContainer}>
+                                            <div>
+
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>IDLPU: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_IDLPU} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>GUID: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GUID} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>Логин N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>Пароль N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>IP шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>Логин шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN} /></div>
+                                                </div>
+                                                <div className={s.copiedEgiszInfoContainer}>
+                                                    <p className={s.infoTitleAccess}>Пароль шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD} /></div>
+                                                </div>
+
+                                            </div>
+                                            {currentOrgEgisz[0].EGISZ_COMMENT &&
+                                                <div>
+                                                    <div className={s.egiszCommentInfoBox}> <p className={s.infoTitleAccess}>Комментарий: </p> {currentOrgEgisz[0].EGISZ_COMMENT}</div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+
+                                    {
                                         currentOrg.ORG_COMMENT &&
                                         <div>
                                             <hr className={s.customHR} />
@@ -434,7 +508,7 @@ const OrgPage = () => {
                                                 <input className={s.editOrgInput} type="text" placeholder="Пароль уч. записи windows" value={editOrgAnydeskWinPassword} onChange={e => setEditOrgAnydeskWinPassword(e.target.value)} />
 
                                                 <p className={s.editOrgInputLabel}>Комментарий</p>
-                                                <textarea className={s.editOrgTextarea} type="text" value={editOrgAnydeskComment} onChange={e => setEditOrgAnydeskComment(e.target.value)} />
+                                                <textarea className={s.editOrgAnydeskComment} type="text" value={editOrgAnydeskComment} onChange={e => setEditOrgAnydeskComment(e.target.value)} />
                                             </div>
                                         case 'RDP':
                                             return <div className={s.editOrgAccessBox}>
@@ -476,7 +550,33 @@ const OrgPage = () => {
                             }
                         </div>
 
-                        <div className={s.editEgiszInputContainer}> ЕГИСЗ </div>
+                        <div className={s.editMainInputContainer}>
+                            <h2 className={s.editPartTitle}> ЕГИСЗ </h2>
+
+                            <p className={s.editOrgInputLabel}>IDLPU</p>
+                            <input className={s.editOrgInput} type="text" placeholder="IDLPU" value={editOrgEgiszIdlpu} onChange={e => setEditOrgEgiszIdlpu(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>GUID</p>
+                            <input className={s.editOrgInput} type="text" placeholder="GUID" value={editOrgEgiszGuid} onChange={e => setEditOrgEgiszGuid(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Логин eventlog N3Health</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Логин eventlog N3Health" value={editOrgEgiszNhealthLogin} onChange={e => setEditOrgEgiszNhealthLogin(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Пароль eventlog N3Health</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Пароль eventlog N3Health" value={editOrgEgiszNhealthPassword} onChange={e => setEditOrgEgiszNhealthPassword(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>IP шлюза</p>
+                            <input className={s.editOrgInput} type="text" placeholder="IP шлюза" value={editOrgEgiszGatewayPcIp} onChange={e => setEditOrgEgiszGatewayPcIp(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Логин уч. записи шлюза</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Логин уч. записи шлюза" value={editOrgEgiszGatewayPcLogin} onChange={e => setEditOrgEgiszGatewayPcLogin(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Пароль уч. записи шлюза</p>
+                            <input className={s.editOrgInput} type="text" placeholder="Пароль уч. записи шлюза" value={editOrgEgiszGatewayPcPassword} onChange={e => setEditOrgEgiszGatewayPcPassword(e.target.value)} />
+
+                            <p className={s.editOrgInputLabel}>Комментарий</p>
+                            <textarea className={s.editOrgEgiszComment} type="text" value={editOrgEgiszComment} onChange={e => setEditOrgEgiszComment(e.target.value)} />
+                        </div>
                     </div>
 
                     <button className={s.applyEditbtn} onClick={applyEditOrg}>Подтвердить изменения</button>
