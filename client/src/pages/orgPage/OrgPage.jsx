@@ -302,18 +302,29 @@ const OrgPage = () => {
                                                 case 'ANYDESK':
                                                     return <div className={s.accessInfoMainContainer}>
                                                         <div>
-                                                            <div className={s.copiedAccessInfoContainer}>
-                                                                <p className={s.infoTitleAccess}>Номер anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_NUMBER} /></div>
-                                                            </div>
-                                                            <div className={s.copiedAccessInfoContainer}>
-                                                                <p className={s.infoTitleAccess}>Пароль anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_PASSWORD} /></div>
-                                                            </div>
-                                                            {currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN &&
+                                                            {
+                                                                currentOrgRemoteAccess[0].ANYDESK_NUMBER &&
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Номер anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_NUMBER} /></div>
+                                                                </div>
+                                                            }
+
+                                                            {
+                                                                currentOrgRemoteAccess[0].ANYDESK_PASSWORD &&
+                                                                <div className={s.copiedAccessInfoContainer}>
+                                                                    <p className={s.infoTitleAccess}>Пароль anydesk: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_PASSWORD} /></div>
+                                                                </div>
+                                                            }
+
+                                                            {
+                                                                currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN &&
                                                                 <div className={s.copiedAccessInfoContainer}>
                                                                     <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_WINDOWS_LOGIN} /></div>
                                                                 </div>
                                                             }
-                                                            {currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD &&
+
+                                                            {
+                                                                currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD &&
                                                                 <div className={s.copiedAccessInfoContainer}>
                                                                     <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].ANYDESK_WINDOWS_PASSWORD} /></div>
                                                                 </div>
@@ -350,15 +361,27 @@ const OrgPage = () => {
                                                     return <div>
                                                         <div className={s.accessInfoMainContainer}>
                                                             <div>
-                                                                <div className={s.copiedAccessInfoContainer}>
-                                                                    <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
-                                                                </div>
-                                                                <div className={s.copiedAccessInfoContainer}>
-                                                                    <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
-                                                                </div>
-                                                                <div className={s.copiedAccessInfoContainer}>
-                                                                    <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
-                                                                </div>
+                                                                {
+                                                                    currentOrgRemoteAccess[0].RDP_IP &&
+                                                                    <div className={s.copiedAccessInfoContainer}>
+                                                                        <p className={s.infoTitleAccess}>IP адрес RDP: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_IP} /></div>
+                                                                    </div>
+                                                                }
+
+                                                                {
+                                                                    currentOrgRemoteAccess[0].RDP_LOGIN &&
+                                                                    <div className={s.copiedAccessInfoContainer}>
+                                                                        <p className={s.infoTitleAccess}>Логин уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_LOGIN} /></div>
+                                                                    </div>
+                                                                }
+
+                                                                {
+                                                                    currentOrgRemoteAccess[0].RDP_PASSWORD &&
+                                                                    <div className={s.copiedAccessInfoContainer}>
+                                                                        <p className={s.infoTitleAccess}>Пароль уч. записи windows: </p> <div className={s.copiedAccessTextBox}> <CopiedText text={currentOrgRemoteAccess[0].RDP_PASSWORD} /></div>
+                                                                    </div>
+                                                                }
+
                                                             </div>
                                                             <div className={s.vpnInfoBox}>
                                                                 <p className={s.infoTitleAccess}>VPN: </p> <div>{currentOrgVpn[0].VPN_INFO}</div>
@@ -395,29 +418,54 @@ const OrgPage = () => {
                                         (currentOrgEgisz.length > 0) &&
                                         <div className={s.accessInfoMainContainer}>
                                             <div>
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_IDLPU &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>IDLPU: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_IDLPU} /></div>
+                                                    </div>
+                                                }
 
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>IDLPU: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_IDLPU} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>GUID: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GUID} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>Логин N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>Пароль N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>IP шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>Логин шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN} /></div>
-                                                </div>
-                                                <div className={s.copiedEgiszInfoContainer}>
-                                                    <p className={s.infoTitleAccess}>Пароль шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD} /></div>
-                                                </div>
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_GUID &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>GUID: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GUID} /></div>
+                                                    </div>
+                                                }
 
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>Логин N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_LOGIN} /></div>
+                                                    </div>
+                                                }
+
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>Пароль N3Health: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_NHEALTH_PASSWORD} /></div>
+                                                    </div>
+                                                }
+
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>IP шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_IP} /></div>
+                                                    </div>
+                                                }
+
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>Логин шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_LOGIN} /></div>
+                                                    </div>
+                                                }
+
+                                                {
+                                                    currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD &&
+                                                    <div className={s.copiedEgiszInfoContainer}>
+                                                        <p className={s.infoTitleAccess}>Пароль шлюза: </p> <div className={s.copiedEgiszTextBox}> <CopiedText text={currentOrgEgisz[0].EGISZ_GATEWAY_PC_PASSWORD} /></div>
+                                                    </div>
+                                                }
                                             </div>
                                             {currentOrgEgisz[0].EGISZ_COMMENT &&
                                                 <div>
@@ -444,6 +492,7 @@ const OrgPage = () => {
                         }
                     </div>
                 </div>
+
             </div>
 
             <Modal visible={deleteConfirmModal} setVisible={setDeleteConfirmModal}>
