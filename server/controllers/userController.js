@@ -8,7 +8,8 @@ const generateJwt = (login, role) => {
     return jwt.sign(
         { login, role },
         process.env.SECRET_KEY,
-        { expiresIn: '72h' }
+        { expiresIn: '360h' }
+        // { expiresIn: '72h' }
         // { expiresIn: '5s' }
     )
 }

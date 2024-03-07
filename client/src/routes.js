@@ -5,16 +5,17 @@ import TechPage from './pages/techPage/TechPage';
 import TagsPage from './pages/tagsPage/TagsPage';
 import TagAddPage from './pages/tagAdd/TagAddPage';
 import OrgPage from './pages/orgPage/OrgPage';
+import ReauthPage from './pages/reauth/ReauthPage';
 
 export const publicRoutes = [
     {
         path: routes.LOGIN_ROUTE,
         Component: LoginPage
     },
-    // {
-    //     path: routes.REAUTH_ROUTE,
-    //     Component: Reauth
-    // }
+    {
+        path: routes.REAUTH_ROUTE,
+        Component: ReauthPage
+    }
 ]
 
 export const techRoutes = [

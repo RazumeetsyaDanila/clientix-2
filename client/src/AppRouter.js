@@ -38,8 +38,12 @@ const AppRouter = () => {
                 <Route key={path} path={path} element={<Component />} />
             )}
 
-            {!checkPath && <Route path="*" element={<Navigate to={routes.LOGIN_ROUTE} />} />}
+            {!checkPath && !isAuth && <Route path="*" element={<Navigate to={routes.LOGIN_ROUTE} />} />}
             {/* {!isAuth && <Route path='*' element={<Navigate to={routes.REAUTH_ROUTE} />} />} */}
+
+            {
+                
+            }
         </Routes>
     );
 };
