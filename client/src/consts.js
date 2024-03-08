@@ -1,4 +1,4 @@
-let placeOfWork = 'home' //work - рабочий комп, home - домашний комп, prod - рабочий сервер
+let placeOfWork = 'prod' //work - рабочий комп, home - домашний комп, prod - рабочий сервер
 
 export let REACT_APP_API_URL
 export let REACT_APP_URL
@@ -12,8 +12,8 @@ if(placeOfWork == 'home'){
     REACT_APP_URL = 'http://localhost:3000/'
 }
 if(placeOfWork == 'prod'){
-    REACT_APP_API_URL = 'http://192.168.0.56:5000/'
-    REACT_APP_URL = 'http://clientix.local:322/'
+    REACT_APP_API_URL = 'http://192.168.0.56:5001/'
+    REACT_APP_URL = 'http://clientix.local:323/'
 }
 
 
