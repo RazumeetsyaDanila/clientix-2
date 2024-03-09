@@ -2,3 +2,4 @@
 /server/db.js
 /client/node_modules
 /client/public/files
+/client/server/.env
